@@ -33,6 +33,13 @@ Eine Codebasis, drei Auslieferungen: dieselbe HTML-App läuft als **Browser-Date
   aktiven Münzen im 10-km-Radius um den Start (Hinrichsenstraße 21) und erzeugt eine erste
   Reihenfolge per Nearest-Neighbor + 2-opt + Or-opt auf Luftlinie. Schreibt `data/route.json`
   **ohne** Tokens.
+> **Zur Laufzeit einstellbar:** Der Startpunkt ist zwar der Default aus `build_route.py`, kann in
+> der App aber pro Gerät geändert werden. Bei einer neuen Home plant die App **on-device** neu –
+> eine JS-Portierung der Pipeline: Münzen im Umkreis filtern, Reihenfolge optimieren
+> (`optimizeOrder` = NN + 2-opt + or-opt; bei ≤100 Münzen auf echter OSRM-Matrix, sonst Luftlinie),
+> echte Geometrie + Etappen-km über OSRM `/route`, Ergebnis in `localStorage` (`sparmania-home`)
+> gecacht. `applyRoutePlan` ersetzt `DATA.start/route/geometry/…` und zeichnet Karte + Liste neu.
+
 - **`scripts/fetch_bike_route.py`** holt vom OSRM-Fahrradprofil
   (`routing.openstreetmap.de/routed-bike`) die echte Wege-Distanzmatrix (in Blöcken, da das
   Table-Limit bei 100 Koordinaten liegt; gecacht in `data/bike-matrix.json`), re-optimiert die

@@ -29,6 +29,7 @@ Ein Projekt von **[Alex Wolf](https://alexwolf.studio)** — Strategic Product D
 | Funktion | Beschreibung |
 |---|---|
 | **Optimierte Radroute** | 106 Münzen im 10-km-Kern um den Start, per echtem Fahrrad-Routing (OSRM) sortiert – nicht Luftlinie. ~181 km Rundkurs, Kern zuerst. |
+| **Eigene Home-Adresse** | Jede:r kann seinen Startpunkt selbst setzen (Adress-Suche oder GPS). Die App plant die Route on-device neu (OSRM) und speichert die Home pro Gerät. „Auf Standard zurücksetzen" jederzeit möglich. |
 | **Touren wählen** | Nach Zeitbudget (Slider), Presets (Schnellrunde / Halbtag / Ganztour) oder **„In der Nähe"** ab GPS-Standort. Route, Liste und Export passen sich an. |
 | **Turn-by-Turn-Navigation** | Wie ein Navi von Münze zu Münze: Live-Fahrradroute, Abbiege-Ansagen, Karte dreht in Fahrtrichtung (Heading-up), automatisches Rerouting. |
 | **Google-Maps-Export** | Tour als Etappen (max. 9 Zwischenstopps pro Etappe, Google-Limit) direkt in Google Maps im Fahrrad-Modus öffnen. |

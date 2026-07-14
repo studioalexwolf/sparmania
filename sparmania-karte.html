@@ -934,6 +934,25 @@ input[type=checkbox]{width:20px;height:20px;accent-color:var(--primary);flex-shr
       <div class="stat"><b id="h-zeit"></b><span>reine Fahrzeit</span></div>
       <div class="stat"><b id="h-kern"></b><span>im 3km-Kern</span></div>
     </div>
+    <div class="card" id="home-card">
+      <div class="title-m">Start / Home</div>
+      <div class="body-m" id="home-current" style="margin:4px 0 10px"></div>
+      <button class="btn tonal" id="home-toggle" style="width:100%">Home-Adresse ändern</button>
+      <div id="home-edit" style="display:none;margin-top:8px">
+        <div style="display:flex;gap:8px">
+          <input id="home-q" placeholder="Adresse suchen …" style="flex:1;min-width:0;font-family:inherit;font-size:14px;padding:9px;border:1px solid var(--outline-variant);border-radius:var(--r-el);background:var(--surface);color:var(--on-surface)">
+          <button class="btn tonal" id="home-search" style="flex-shrink:0">Suchen</button>
+        </div>
+        <div id="home-results"></div>
+        <button class="btn tonal" id="home-gps" style="width:100%;margin-top:8px">Meinen Standort verwenden</button>
+        <button class="btn text" id="home-reset" style="width:100%;margin-top:2px">Auf Standard zurücksetzen</button>
+        <div class="hint" style="margin-top:8px">Adress-Suche über OpenStreetMap. Bei Änderung wird die Route exakt neu geplant (~20 s, echtes Radrouting).</div>
+      </div>
+      <div id="home-progress" style="display:none;margin-top:10px">
+        <div class="body-m" id="home-progress-text" style="margin-bottom:6px"></div>
+        <div class="progressbar"><div id="home-progress-bar"></div></div>
+      </div>
+    </div>
     <div class="card">
       <div class="title-m">Tour wählen</div>
       <div class="body-m" style="margin:4px 0 12px">Wähle, wie lange du fahren willst – die Route nimmt so viele Münzen mit, wie in die Zeit passen. „In der Nähe" plant ab deinem GPS-Standort.</div>
@@ -1122,6 +1141,7 @@ function saveProgress(){
   try{ localStorage.setItem(KEY, JSON.stringify(ids)); }catch(e){}
   try{ document.cookie=KEY+"="+encodeURIComponent(JSON.stringify(ids))+";max-age=31536000;path=/"; }catch(e){}
 }
+var DATA_DEFAULT=JSON.parse(JSON.stringify(DATA));   // gebackene Standard-Route (für „zurücksetzen")
 var byId={};
 DATA.route.forEach(function(c){ byId[c.id]=c; });
 var START=[DATA.start.lat,DATA.start.lon];
@@ -1154,11 +1174,20 @@ function openInSeq(){ var n=0; for(var i=0;i<navSeq.length;i++) if(!collected[na
 var map=L.map("map",{zoomControl:false}).setView([DATA.start.lat,DATA.start.lon],13);
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
 L.control.scale({imperial:false}).addTo(map);
-if(DATA.geometry && DATA.geometry.length>2){
-  L.polyline(DATA.geometry,{color:"#1A1110",weight:3,opacity:.45}).addTo(map);
+// Overview-Linie & Start-Marker als neu-zeichenbare Funktionen (bei Home-Wechsel aktualisiert)
+var overviewLine=null, startMarker=null;
+function drawOverview(){
+  if(overviewLine){ map.removeLayer(overviewLine); overviewLine=null; }
+  if(DATA.geometry && DATA.geometry.length>2){
+    overviewLine=L.polyline(DATA.geometry,{color:"#1A1110",weight:3,opacity:.45}).addTo(map);
+  }
 }
-L.marker([DATA.start.lat,DATA.start.lon],{icon:L.divIcon({className:"",html:'<div class="pin start">⌂</div>',iconSize:[34,34],iconAnchor:[17,17]}),zIndexOffset:900}).addTo(map)
- .bindPopup("<b>"+esc(DATA.start.title)+"</b>");
+function drawStart(){
+  if(startMarker) map.removeLayer(startMarker);
+  startMarker=L.marker([DATA.start.lat,DATA.start.lon],{icon:L.divIcon({className:"",html:'<div class="pin start">⌂</div>',iconSize:[34,34],iconAnchor:[17,17]}),zIndexOffset:900}).addTo(map)
+    .bindPopup("<b>"+esc(DATA.start.title)+"</b>");
+}
+drawOverview(); drawStart();
 
 var nextCoin=null, markerById={}, rowById={};
 function calcNext(){ nextCoin=firstOpen(activeTour.coins,0); }
@@ -1198,24 +1227,33 @@ function openExtern(u){
   else window.open(u,"_blank");
 }
 
-DATA.route.forEach(function(c){
-  var m=L.marker([c.lat,c.lon],{icon:coinIcon(c)}).addTo(map);
-  m.on("click",function(){ openSheet(c); });
-  markerById[c.id]=m;
-});
+function drawRouteMarkers(){
+  for(var id in markerById){ if(markerById[id]) map.removeLayer(markerById[id]); }
+  markerById={};
+  DATA.route.forEach(function(c){
+    var m=L.marker([c.lat,c.lon],{icon:coinIcon(c)}).addTo(map);
+    m.on("click",function(){ openSheet(c); });
+    markerById[c.id]=m;
+  });
+}
+drawRouteMarkers();
 
 /* Außerhalb / Bald aktiv */
 var outLayer=L.layerGroup(), futLayer=L.layerGroup();
-DATA.outsideActive.forEach(function(c){
-  L.marker([c.lat,c.lon],{icon:L.divIcon({className:"",html:'<div class="pin out">●</div>',iconSize:[22,22],iconAnchor:[11,11]})})
-   .bindPopup("<b>"+esc(c.title)+"</b><br><small>"+esc(c.place)+" · außerhalb der Route</small>").addTo(outLayer);
-});
+function drawOutside(){
+  outLayer.clearLayers();
+  DATA.outsideActive.forEach(function(c){
+    L.marker([c.lat,c.lon],{icon:L.divIcon({className:"",html:'<div class="pin out">●</div>',iconSize:[22,22],iconAnchor:[11,11]})})
+     .bindPopup("<b>"+esc(c.title)+"</b><br><small>"+esc(c.place)+" · außerhalb der Route</small>").addTo(outLayer);
+  });
+  $("nout").textContent=DATA.outsideActive.length;
+}
+drawOutside();
 DATA.future.forEach(function(c){
   var d=c.activeFrom?new Date(c.activeFrom).toLocaleDateString("de-DE"):"";
   L.marker([c.lat,c.lon],{icon:L.divIcon({className:"",html:'<div class="pin fut">◷</div>',iconSize:[22,22],iconAnchor:[11,11]})})
    .bindPopup("<b>"+esc(c.title)+"</b><br><small>"+esc(c.place)+" · aktiv ab "+d+"</small>").addTo(futLayer);
 });
-$("nout").textContent=DATA.outsideActive.length;
 $("nfut").textContent=DATA.future.length;
 $("tglout").addEventListener("click",function(){ this.classList.toggle("on"); this.classList.contains("on")?outLayer.addTo(map):map.removeLayer(outLayer); });
 $("tglfut").addEventListener("click",function(){ this.classList.toggle("on"); this.classList.contains("on")?futLayer.addTo(map):map.removeLayer(futLayer); });
@@ -1252,7 +1290,7 @@ $("jumpnext").addEventListener("click",function(){
   r.scrollIntoView({behavior:"smooth",block:"center"});
   r.classList.remove("flash"); void r.offsetWidth; r.classList.add("flash");
 });
-$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.10";
+$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.11";
 $("h-navstart").addEventListener("click",function(){ unlockAudio(); startNavTo(nextCoin||activeTour.coins[0]); });
 
 /* ===== Touren-Engine (Auswahl nach Zeit / Größe / Nähe) ===== */
@@ -1867,8 +1905,250 @@ $("syncbtn2").addEventListener("click",doSync);
 $("syncbtn3").addEventListener("click",doSync);
 $("creditlink").addEventListener("click",function(){ openExtern("https://alexwolf.studio"); });
 
+/* ===== Home-Adresse: On-Device-Neuplanung der Route (Port der Python-Pipeline) ===== */
+var RADIUS_M=10000, CORE_M=3000, HOME_KEY="sparmania-home";
+function fetchJson(url){
+  return new Promise(function(resolve,reject){
+    var to=setTimeout(function(){ reject(new Error("timeout")); },20000);
+    fetch(url).then(function(r){ return r.json(); }).then(function(j){ clearTimeout(to); resolve(j); },
+      function(e){ clearTimeout(to); reject(e); });
+  });
+}
+function sleep(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+function coordStr(pts,idx){ return idx.map(function(k){ return pts[k][1].toFixed(6)+","+pts[k][0].toFixed(6); }).join(";"); }
+
+/* Luftlinien-Distanzmatrix on-device (für die Reihenfolge-Optimierung) — kein Netz nötig */
+function haversineMatrix(pts){
+  var n=pts.length, D=[];
+  for(var i=0;i<n;i++){ D.push(new Array(n)); for(var j=0;j<n;j++) D[i][j]=(i===j)?0:havM(pts[i],pts[j]); }
+  return D;
+}
+/* Echte OSRM-Radweg-Matrix in EINEM Request (nur ≤100 Koordinaten; ein einzelner Request
+   ist ok, im Gegensatz zu parallelen Bursts). Gibt reale Distanzen für die optimale Reihenfolge. */
+async function osrmMatrix(pts){
+  if(pts.length>100) return null;
+  var idx=[]; for(var i=0;i<pts.length;i++) idx.push(i);
+  var d=await fetchJson(OSRM+"/table/v1/bike/"+coordStr(pts,idx)+"?annotations=distance");
+  if(d.code!=="Ok"||!d.distances) return null;
+  var n=pts.length, D=d.distances;
+  for(var x=0;x<n;x++) for(var y=0;y<n;y++) if(D[x][y]==null) D[x][y]=havM(pts[x],pts[y])*1.5;
+  return D;
+}
+
+/* NN + 2-opt + or-opt auf symmetrisierter Matrix, Knoten 0 (Home) fix */
+function optimizeOrder(D,n){
+  var S=[]; for(var i=0;i<n;i++){ S.push([]); for(var j=0;j<n;j++) S[i][j]=(D[i][j]+D[j][i])/2; }
+  var unvisited={}, order=[], cur=0; for(var u=1;u<n;u++) unvisited[u]=true;
+  while(Object.keys(unvisited).length){
+    var nxt=-1,bd=Infinity;
+    for(var v in unvisited){ v=+v; if(S[cur][v]<bd){ bd=S[cur][v]; nxt=v; } }
+    order.push(nxt); delete unvisited[nxt]; cur=nxt;
+  }
+  function twoOpt(path){
+    var improved=true;
+    while(improved){ improved=false;
+      for(var i=1;i<path.length-2;i++) for(var j=i+1;j<path.length-1;j++){
+        var a=path[i-1],b=path[i],c=path[j],d=path[j+1];
+        if(S[a][c]+S[b][d] < S[a][b]+S[c][d]-1e-9){
+          for(var lo=i,hi=j;lo<hi;lo++,hi--){ var t=path[lo]; path[lo]=path[hi]; path[hi]=t; }
+          improved=true;
+        }
+      }
+    }
+    return path;
+  }
+  function orOpt(path){
+    var improved=true;
+    while(improved){ improved=false;
+      for(var seg=1;seg<=3;seg++){
+        var i=1;
+        while(i<path.length-seg){
+          var s=path.slice(i,i+seg), pre=path[i-1], post=path[i+seg];
+          var removed=S[pre][s[0]]+S[s[seg-1]][post]-S[pre][post];
+          var rest=path.slice(0,i).concat(path.slice(i+seg));
+          var bestGain=1e-9,bestK=-1;
+          for(var k=1;k<rest.length;k++){
+            var x=rest[k-1],y=rest[k], gain=removed-(S[x][s[0]]+S[s[seg-1]][y]-S[x][y]);
+            if(gain>bestGain){ bestGain=gain; bestK=k; }
+          }
+          if(bestK>=0){ path=rest.slice(0,bestK).concat(s).concat(rest.slice(bestK)); improved=true; }
+          else i++;
+        }
+      }
+    }
+    return path;
+  }
+  var path=[0].concat(order).concat([0]);
+  path=orOpt(twoOpt(path)); path=twoOpt(path);
+  return path.slice(1,-1);
+}
+
+/* Reale Routen-Geometrie + Leg-Distanzen/-Dauern (Chunks ≤24 Legs, SEQUENZIELL —
+   der freie OSRM-Community-Server blockt parallele Bursts mit einer HTML-Fehlerseite) */
+async function osrmRouteGeom(ptsOrdered,onprog){
+  var coords=[], legM=[], legS=[], CH=24, i=0, total=Math.ceil((ptsOrdered.length-1)/CH), done=0;
+  while(i<ptsOrdered.length-1){
+    var seg=[]; for(var k=i;k<Math.min(i+CH+1,ptsOrdered.length);k++) seg.push(k);
+    var d=await fetchJson(OSRM+"/route/v1/bike/"+coordStr(ptsOrdered,seg)+"?overview=full&geometries=geojson&steps=false&continue_straight=false");
+    if(d.code!=="Ok"||!d.routes||!d.routes.length) throw new Error("route "+(d.code||"leer"));
+    var r0=d.routes[0], g=r0.geometry.coordinates;
+    for(var gi=(coords.length?1:0);gi<g.length;gi++) coords.push([g[gi][1],g[gi][0]]);
+    for(var li=0;li<r0.legs.length;li++){ legM.push(r0.legs[li].distance); legS.push(r0.legs[li].duration); }
+    i+=CH; done++; if(onprog) onprog(done,total); await sleep(150);
+  }
+  return {coords:coords, legM:legM, legS:legS};
+}
+
+/* Douglas-Peucker (mit Fix für degenerierte Segmente bei geschlossener Schleife) */
+function simplifyGeom(coords,eps){
+  if(coords.length<3) return coords;
+  var keep=new Array(coords.length); keep[0]=keep[coords.length-1]=true;
+  var stack=[[0,coords.length-1]];
+  while(stack.length){
+    var seg=stack.pop(), a=seg[0], b=seg[1];
+    if(b-a<2) continue;
+    var ax=coords[a][0], ay=coords[a][1], bx=coords[b][0], by=coords[b][1], dx=bx-ax, dy=by-ay, norm=Math.hypot(dx,dy);
+    var bestD=0, bestI=-1;
+    for(var i=a+1;i<b;i++){
+      var d = norm<1e-12 ? Math.hypot(coords[i][0]-ax,coords[i][1]-ay)
+                         : Math.abs(dx*(ay-coords[i][1])-dy*(ax-coords[i][0]))/norm;
+      if(d>bestD){ bestD=d; bestI=i; }
+    }
+    if(bestD>eps){ keep[bestI]=true; stack.push([a,bestI]); stack.push([bestI,b]); }
+  }
+  var out=[]; for(var j=0;j<coords.length;j++) if(keep[j]) out.push(coords[j]);
+  return out;
+}
+
+/* Vollständige Neuplanung ab einer Home-Position */
+async function replanFromHome(home,onprog){
+  var strip=function(c){ return {id:c.id,title:c.title,place:c.place,lat:c.lat,lon:c.lon}; };
+  var pool=DATA_DEFAULT.route.map(strip).concat(DATA_DEFAULT.outsideActive.map(strip));
+  var h=[home.lat,home.lon], inRange=[], outside=[];
+  pool.forEach(function(c){ (havM(h,[c.lat,c.lon])<=RADIUS_M?inRange:outside).push(c); });
+  if(!inRange.length) throw new Error("EMPTY");
+  var pts=[h]; inRange.forEach(function(c){ pts.push([c.lat,c.lon]); });
+  // Reihenfolge on-device per Luftlinie optimieren (spart die schwere OSRM-Matrix + Rate-Limit)
+  if(onprog) onprog("opt",0);
+  var real=false, D=null;
+  if(pts.length<=100){ try{ D=await osrmMatrix(pts); if(D) real=true; }catch(e){ D=null; } }
+  if(!D) D=haversineMatrix(pts);
+  var order=optimizeOrder(D,pts.length);
+  var earlyMean=function(o){ var s=0,c=Math.min(40,o.length); for(var i=0;i<c;i++) s+=D[0][o[i]]; return c?s/c:0; };
+  var rev=order.slice().reverse();
+  if(earlyMean(rev)<earlyMean(order)) order=rev;
+  // reale Geometrie + exakte Etappen-km entlang der Reihenfolge (OSRM, sequenziell)
+  var ptsOrdered=[pts[0]]; order.forEach(function(i){ ptsOrdered.push(pts[i]); }); ptsOrdered.push(pts[0]);
+  if(onprog) onprog("geom",0);
+  var g=await osrmRouteGeom(ptsOrdered,function(a,b){ if(onprog) onprog("geom",a/b); });
+  var route=[], cumM=0, cumS=0;
+  order.forEach(function(idx,k){
+    var coin=inRange[idx-1]; cumM+=g.legM[k]||0; cumS+=g.legS[k]||0;
+    route.push({num:k+1, id:coin.id, title:coin.title, place:coin.place, lat:coin.lat, lon:coin.lon,
+      kmFromStart:Math.round(cumM/1000*10)/10, kmHome:Math.round((real?D[idx][0]:havM(h,[coin.lat,coin.lon])*ROAD)/1000*10)/10,
+      minFromStart:Math.round(cumS/60), core:havM(h,[coin.lat,coin.lon])<=CORE_M});
+  });
+  var totM=0,totS=0; g.legM.forEach(function(x){ totM+=x; }); g.legS.forEach(function(x){ totS+=x; });
+  return { start:{lat:home.lat,lon:home.lon,title:home.title}, route:route,
+    geometry:simplifyGeom(g.coords,0.00008), totalKm:Math.round(totM/1000*10)/10,
+    totalMin:Math.round(totS/60), outsideActive:outside };
+}
+
+/* Bundle auf den Laufzeit-Zustand anwenden (mutiert DATA, zeichnet neu) */
+function applyRoutePlan(b){
+  DATA.start=b.start; DATA.route=b.route; DATA.geometry=b.geometry;
+  DATA.outsideActive=b.outsideActive; DATA.totalKm=b.totalKm; DATA.totalMin=b.totalMin;
+  byId={}; DATA.route.forEach(function(c){ byId[c.id]=c; });
+  START=[DATA.start.lat,DATA.start.lon];
+  MINPKM=(DATA.totalKm>0)?(DATA.totalMin/DATA.totalKm):3.9;
+  tourMode="prefix"; tourBudget=100000;
+  var chips=$("tour-presets").querySelectorAll("button");
+  for(var i=0;i<chips.length;i++) chips[i].classList.toggle("on",chips[i].getAttribute("data-min")==="9999");
+  drawOverview(); drawStart(); drawRouteMarkers(); drawOutside();
+  map.setView([DATA.start.lat,DATA.start.lon],13);
+  rebuildTour();
+  updateHomeText();
+}
+function defaultBundle(){
+  return { start:DATA_DEFAULT.start, route:DATA_DEFAULT.route, geometry:DATA_DEFAULT.geometry,
+    totalKm:DATA_DEFAULT.totalKm, totalMin:DATA_DEFAULT.totalMin, outsideActive:DATA_DEFAULT.outsideActive };
+}
+function loadHome(){ try{ var v=localStorage.getItem(HOME_KEY); return v?JSON.parse(v):null; }catch(e){ return null; } }
+function saveHome(home,bundle){ try{ localStorage.setItem(HOME_KEY,JSON.stringify({home:home,bundle:bundle})); }catch(e){} }
+
+/* ===== Home-UI ===== */
+function updateHomeText(){ $("home-current").textContent="Aktuell: "+DATA.start.title; }
+function showHomeProgress(t){ $("home-progress").style.display="block"; $("home-progress-text").textContent=t; $("home-progress-bar").style.width="0%"; setHomeBusy(true); }
+function hideHomeProgress(){ $("home-progress").style.display="none"; setHomeBusy(false); }
+function setHomeBusy(on){ ["home-search","home-gps","home-reset"].forEach(function(id){ $(id).disabled=on; }); }
+function onHomeProg(stage,frac){
+  var label=stage==="opt"?"Reihenfolge optimieren":stage==="geom"?"Wege laden":"Berechnen";
+  $("home-progress-text").textContent=label+" …";
+  $("home-progress-bar").style.width=Math.round(stage==="geom"?(10+frac*90):5)+"%";
+}
+async function doReplan(home){
+  showHomeProgress("Adresse gesetzt · plane Route …");
+  try{
+    var bundle=await replanFromHome(home,onHomeProg);
+    applyRoutePlan(bundle);
+    saveHome({lat:home.lat,lon:home.lon,title:home.title},bundle);
+    hideHomeProgress();
+    $("home-edit").style.display="none"; $("home-results").innerHTML="";
+    toast("Home gesetzt: "+home.title+" · "+bundle.route.length+" Münzen in Reichweite");
+  }catch(e){
+    hideHomeProgress();
+    if(String(e.message||e).indexOf("EMPTY")>=0) toast("Keine Münzen im Umkreis von 10 km dieser Adresse");
+    else toast("Neuberechnung fehlgeschlagen (OSRM) – bisherige Route bleibt");
+  }
+}
+function shortLabel(displayName){ return displayName.split(",").slice(0,3).join(",").trim(); }
+async function geocode(q){
+  var r=await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=5&countrycodes=de&q="+encodeURIComponent(q),{headers:{Accept:"application/json"}});
+  return await r.json();
+}
+$("home-toggle").addEventListener("click",function(){
+  var e=$("home-edit"); e.style.display=(e.style.display==="none"?"block":"none");
+});
+$("home-search").addEventListener("click",function(){
+  var q=$("home-q").value.trim(); if(!q){ toast("Bitte eine Adresse eingeben"); return; }
+  var box=$("home-results"); box.innerHTML='<div class="hint">Suche …</div>';
+  geocode(q).then(function(res){
+    box.innerHTML="";
+    if(!res||!res.length){ box.innerHTML='<div class="hint">Nichts gefunden.</div>'; return; }
+    res.forEach(function(r){
+      var b=document.createElement("button"); b.className="btn tonal"; b.style.width="100%"; b.style.margin="4px 0"; b.style.justifyContent="flex-start"; b.style.textAlign="left"; b.style.height="auto"; b.style.padding="8px 12px"; b.style.fontSize="13px";
+      b.textContent=shortLabel(r.display_name);
+      b.addEventListener("click",function(){ doReplan({lat:+r.lat,lon:+r.lon,title:shortLabel(r.display_name)}); });
+      box.appendChild(b);
+    });
+  },function(){ box.innerHTML='<div class="hint">Adress-Suche nicht erreichbar.</div>'; });
+});
+$("home-q").addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); $("home-search").click(); } });
+$("home-gps").addEventListener("click",function(){
+  if(!navigator.geolocation){ toast("GPS nicht verfügbar"); return; }
+  toast("Standort wird ermittelt …");
+  navigator.geolocation.getCurrentPosition(function(p){
+    var la=p.coords.latitude, lo=p.coords.longitude;
+    fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+la+"&lon="+lo,{headers:{Accept:"application/json"}})
+      .then(function(r){ return r.json(); }).then(function(j){ doReplan({lat:la,lon:lo,title:j&&j.display_name?shortLabel(j.display_name):"Mein Standort"}); },
+      function(){ doReplan({lat:la,lon:lo,title:"Mein Standort"}); });
+  },function(e){ toast("Standort: "+e.message); },{enableHighAccuracy:true,timeout:15000});
+});
+$("home-reset").addEventListener("click",function(){
+  try{ localStorage.removeItem(HOME_KEY); }catch(e){}
+  applyRoutePlan(defaultBundle());
+  $("home-edit").style.display="none";
+  toast("Auf Standard zurückgesetzt: "+DATA_DEFAULT.start.title);
+});
+
 /* ===== Start ===== */
-rebuildTour();
+var savedHome=loadHome();
+if(savedHome && savedHome.bundle && savedHome.bundle.route && savedHome.bundle.route.length){
+  applyRoutePlan(savedHome.bundle);
+} else {
+  rebuildTour();
+}
+updateHomeText();
 updateNavCard();
 checkHashSync();
 </script>

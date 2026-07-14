@@ -27,6 +27,23 @@ Die Karte „**Tour wählen**" bestimmt, wie viel du fährst:
 Die gewählte Tour steuert **Liste, Navigation und Google-Maps-Export** gleichzeitig. Änderst du
 die Tour, bleibt eine bereits laufende Navigation unangetastet.
 
+## Start / Home individuell einstellen
+
+![Start / Home](screenshots/07-home.png)
+
+Standardmäßig startet die Route an einer festen Adresse. Über die Karte **„Start / Home"** kann
+aber jede:r seinen **eigenen Startpunkt** setzen – so starten andere Nutzer von ihrer eigenen
+Adresse statt von der Standard-Adresse:
+
+- **Adresse suchen** (Geocoding über OpenStreetMap) und einen Treffer antippen, oder
+- **„Meinen Standort verwenden"** (GPS).
+
+Die App plant die Route dann **on-device neu**: sie wählt die Münzen im Umkreis (10 km) der neuen
+Adresse, optimiert die Reihenfolge und holt die echten Radweg-Distanzen und die Streckengeometrie
+von OSRM (dauert je nach Münz-Dichte wenige Sekunden bis ~½ Minute). Die neue Home wird pro Gerät
+gespeichert – beim nächsten Start ist sie sofort da, ohne Neuberechnung. **„Auf Standard
+zurücksetzen"** stellt die Ausgangs-Route wieder her. Der Sammelstand bleibt bei allem erhalten.
+
 ## Karte
 
 ![Karte](screenshots/03-karte.png)
