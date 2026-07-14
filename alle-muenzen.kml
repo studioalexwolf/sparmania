@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"><Document>
+<name>Sparmania: alle Münzen</name>
+<Style id="core"><IconStyle><color>ff00b8f5</color><Icon><href>https://maps.google.com/mapfiles/kml/paddle/wht-blank.png</href></Icon></IconStyle></Style><Style id="ring"><IconStyle><color>ff327d2e</color><Icon><href>https://maps.google.com/mapfiles/kml/paddle/wht-blank.png</href></Icon></IconStyle></Style><Style id="start"><IconStyle><color>ff2828c6</color><Icon><href>https://maps.google.com/mapfiles/kml/paddle/red-stars.png</href></Icon></IconStyle></Style><Style id="line"><LineStyle><color>ff327d2e</color><width>3</width></LineStyle></Style>
+<Folder><name>Leipzig (95)</name>
+<Placemark><name>SB-Center SB-Standort Waldplatz</name><description>Route #1</description><Point><coordinates>12.35988,51.342284,0</coordinates></Point></Placemark>
+<Placemark><name>Zugang zur Arena</name><description>Route #2</description><Point><coordinates>12.357064,51.342223,0</coordinates></Point></Placemark>
+<Placemark><name>Schreberbrücke Stadthafen</name><description>Route #3</description><Point><coordinates>12.359367,51.338766,0</coordinates></Point></Placemark>
+<Placemark><name>Kunsthalle der Sparkasse Leipzig</name><description>Route #4</description><Point><coordinates>12.370165,51.338405,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Petersbogen</name><description>Route #5</description><Point><coordinates>12.374583,51.338502,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Marktgalerie</name><description>Route #6</description><Point><coordinates>12.373012,51.340318,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Leipzig Hainstraße</name><description>Route #7</description><Point><coordinates>12.374058,51.341371,0</coordinates></Point></Placemark>
+<Placemark><name>Richard-Wagner-Denkmal</name><description>Route #8</description><Point><coordinates>12.37045,51.342511,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Höfe am Brühl</name><description>Route #9</description><Point><coordinates>12.3724,51.34366,0</coordinates></Point></Placemark>
+<Placemark><name>Markt</name><description>Route #10</description><Point><coordinates>12.374708,51.340494,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Galeria Kaufhof</name><description>Route #11</description><Point><coordinates>12.376643,51.339862,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Augustusplatz</name><description>Route #12</description><Point><coordinates>12.380172,51.338916,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Uni-Campus Leipzig</name><description>Route #13</description><Point><coordinates>12.378349,51.338605,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Leipzig Schillerstraße</name><description>Route #14</description><Point><coordinates>12.3767,51.336962,0</coordinates></Point></Placemark>
+<Placemark><name>Schachbrett</name><description>Route #15</description><Point><coordinates>12.378962,51.334073,0</coordinates></Point></Placemark>
+<Placemark><name>Musikviertel Mendelssohnufer</name><description>Route #16</description><Point><coordinates>12.370164,51.332167,0</coordinates></Point></Placemark>
+<Placemark><name>Löffelfamilie</name><description>Route #17</description><Point><coordinates>12.373533,51.326645,0</coordinates></Point></Placemark>
+<Placemark><name>Panometer</name><description>Route #18</description><Point><coordinates>12.387344,51.314076,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Leipzig Connewitz</name><description>Route #19</description><Point><coordinates>12.373437,51.311712,0</coordinates></Point></Placemark>
+<Placemark><name>Neue Linie</name><description>Route #20</description><Point><coordinates>12.362844,51.308211,0</coordinates></Point></Placemark>
+<Placemark><name>Parkschloss</name><description>Route #22</description><Point><coordinates>12.381521,51.284801,0</coordinates></Point></Placemark>
+<Placemark><name>Cospudener See Nordufer</name><description>Route #24</description><Point><coordinates>12.347802,51.282278,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Großzschocher</name><description>Route #26</description><Point><coordinates>12.327868,51.300526,0</coordinates></Point></Placemark>
+<Placemark><name>Bootsanleger</name><description>Route #27</description><Point><coordinates>12.343861,51.306979,0</coordinates></Point></Placemark>
+<Placemark><name>Radrennbahn</name><description>Route #28</description><Point><coordinates>12.326771,51.312031,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig PlagwitzCenter</name><description>Route #29</description><Point><coordinates>12.331737,51.323082,0</coordinates></Point></Placemark>
+<Placemark><name>Sommerbad Küchenholzallee</name><description>Route #30</description><Point><coordinates>12.338271,51.316687,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Schleußig</name><description>Route #31</description><Point><coordinates>12.34336,51.323333,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Elster-Park</name><description>Route #32</description><Point><coordinates>12.342064,51.327991,0</coordinates></Point></Placemark>
+<Placemark><name>Sachsenbrücke</name><description>Route #33</description><Point><coordinates>12.35426,51.330348,0</coordinates></Point></Placemark>
+<Placemark><name>Spielplatz „Palmengarten“</name><description>Route #34</description><Point><coordinates>12.345218,51.336656,0</coordinates></Point></Placemark>
+<Placemark><name>Steinbrücke</name><description>Route #35</description><Point><coordinates>12.346215,51.333624,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Leipzig Plagwitz</name><description>Route #36</description><Point><coordinates>12.338448,51.331649,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Lindenauer Markt</name><description>Route #37</description><Point><coordinates>12.335752,51.33673,0</coordinates></Point></Placemark>
+<Placemark><name>Entensteg am Kanal</name><description>Route #38</description><Point><coordinates>12.327654,51.332366,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Lindenau</name><description>Route #39</description><Point><coordinates>12.329636,51.336123,0</coordinates></Point></Placemark>
+<Placemark><name>Spinnerei</name><description>Route #40</description><Point><coordinates>12.319986,51.327646,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Lützner Straße</name><description>Route #41</description><Point><coordinates>12.316088,51.330583,0</coordinates></Point></Placemark>
+<Placemark><name>Heizhaus</name><description>Route #42</description><Point><coordinates>12.298547,51.320286,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Allee-Center Leipzig</name><description>Route #43</description><Point><coordinates>12.292112,51.319764,0</coordinates></Point></Placemark>
+<Placemark><name>Schönauer Park</name><description>Route #44</description><Point><coordinates>12.2924,51.326898,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Leipzig Ratzelbogen</name><description>Route #45</description><Point><coordinates>12.281241,51.311657,0</coordinates></Point></Placemark>
+<Placemark><name>Kulkwitzer See</name><description>Route #46</description><Point><coordinates>12.252196,51.304763,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Plovdiver Straße</name><description>Route #48</description><Point><coordinates>12.267923,51.321834,0</coordinates></Point></Placemark>
+<Placemark><name>Wasserturm Wachberg</name><description>Route #49</description><Point><coordinates>12.255236,51.342247,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Löwencenter Burghausen</name><description>Route #50</description><Point><coordinates>12.267078,51.347302,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Böhlitz-Ehrenberg</name><description>Route #51</description><Point><coordinates>12.291376,51.359509,0</coordinates></Point></Placemark>
+<Placemark><name>Am Sportpark</name><description>Route #52</description><Point><coordinates>12.30671,51.357624,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Leutzsch</name><description>Route #53</description><Point><coordinates>12.310072,51.349212,0</coordinates></Point></Placemark>
+<Placemark><name>Elsterflutbett</name><description>Route #54</description><Point><coordinates>12.341753,51.351904,0</coordinates></Point></Placemark>
+<Placemark><name>Nahleberg</name><description>Route #55</description><Point><coordinates>12.330277,51.362416,0</coordinates></Point></Placemark>
+<Placemark><name>Auensee</name><description>Route #56</description><Point><coordinates>12.316366,51.369436,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Wahren</name><description>Route #57</description><Point><coordinates>12.328098,51.37327,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Lindenthal</name><description>Route #58</description><Point><coordinates>12.327439,51.392067,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Wiederitzsch</name><description>Route #61</description><Point><coordinates>12.37255,51.395025,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipziger Messe</name><description>Route #62</description><Point><coordinates>12.399627,51.396953,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Globus Markt Sachsenpark</name><description>Route #63</description><Point><coordinates>12.396488,51.401072,0</coordinates></Point></Placemark>
+<Placemark><name>Parkbühne Geyserhaus</name><description>Route #64</description><Point><coordinates>12.380804,51.371878,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Eutritzsch</name><description>Route #65</description><Point><coordinates>12.385192,51.365407,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Konsum Coppistraße</name><description>Route #66</description><Point><coordinates>12.375674,51.366995,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Leipzig Gohlis-Arkaden</name><description>Route #67</description><Point><coordinates>12.370509,51.361476,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Kaufland-Georg-Schumann-Straße</name><description>Route #68</description><Point><coordinates>12.362482,51.363074,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Max-Liebermann-Straße</name><description>Route #69</description><Point><coordinates>12.365893,51.376281,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Mockau-Center</name><description>Route #70</description><Point><coordinates>12.412567,51.375282,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Leipzig Schönefeld</name><description>Route #71</description><Point><coordinates>12.417209,51.358199,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Einkaufszentrum Löbauer Straße</name><description>Route #72</description><Point><coordinates>12.425744,51.357374,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Goldsternstraße</name><description>Route #73</description><Point><coordinates>12.45968,51.356778,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Paunsdorfcenter</name><description>Route #74</description><Point><coordinates>12.476601,51.349911,0</coordinates></Point></Placemark>
+<Placemark><name>Engelsdorf</name><description>Route #75</description><Point><coordinates>12.478368,51.341919,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Engelsdorf</name><description>Route #76</description><Point><coordinates>12.484862,51.334984,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Holzhausen</name><description>Route #77</description><Point><coordinates>12.464585,51.305107,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Probstheida</name><description>Route #84</description><Point><coordinates>12.424608,51.304529,0</coordinates></Point></Placemark>
+<Placemark><name>Lößnig</name><description>Route #85</description><Point><coordinates>12.410043,51.300206,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Lebensmittelmarkt Lößnig</name><description>Route #86</description><Point><coordinates>12.396599,51.300025,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Marienbrunn</name><description>Route #87</description><Point><coordinates>12.396756,51.305615,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig ARAL-Tankstelle</name><description>Route #88</description><Point><coordinates>12.404334,51.313807,0</coordinates></Point></Placemark>
+<Placemark><name>Marienquelle</name><description>Route #89</description><Point><coordinates>12.404927,51.312898,0</coordinates></Point></Placemark>
+<Placemark><name>Alte Messe</name><description>Route #90</description><Point><coordinates>12.404369,51.317086,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig HIT-Markt</name><description>Route #91</description><Point><coordinates>12.399407,51.319259,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Stötteritz</name><description>Route #92</description><Point><coordinates>12.419221,51.319664,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Breslauer Straße</name><description>Route #93</description><Point><coordinates>12.414693,51.324025,0</coordinates></Point></Placemark>
+<Placemark><name>Anger</name><description>Route #94</description><Point><coordinates>12.416149,51.331934,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Leipzig Anger-Crottendorf</name><description>Route #95</description><Point><coordinates>12.410502,51.33499,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Torgauer Platz</name><description>Route #96</description><Point><coordinates>12.415699,51.345991,0</coordinates></Point></Placemark>
+<Placemark><name>Otto-Runki-Platz</name><description>Route #97</description><Point><coordinates>12.400187,51.345707,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Leipzig Reudnitz</name><description>Route #98</description><Point><coordinates>12.401212,51.339419,0</coordinates></Point></Placemark>
+<Placemark><name>Reudnitz</name><description>Route #99</description><Point><coordinates>12.398243,51.334733,0</coordinates></Point></Placemark>
+<Placemark><name>Friedenspark</name><description>Route #100</description><Point><coordinates>12.395915,51.324988,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Leipzig Uniklinik Liebigstraße</name><description>Route #101</description><Point><coordinates>12.386221,51.331517,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center Hauptbahnhof Leipzig Osthalle</name><description>Route #102</description><Point><coordinates>12.381863,51.343684,0</coordinates></Point></Placemark>
+<Placemark><name>Sparkasse Leipzig - SB-Center Hauptbahnhof Leipzig Westhalle</name><description>Route #103</description><Point><coordinates>12.379495,51.344759,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Leipzig Löhrs Carré</name><description>Route #104</description><Point><coordinates>12.374645,51.3466,0</coordinates></Point></Placemark>
+<Placemark><name>Münze beim Elefanten</name><description>Route #105</description><Point><coordinates>12.369393,51.352092,0</coordinates></Point></Placemark>
+<Placemark><name>Rosental Wiese Leibnizweg</name><description>Route #106</description><Point><coordinates>12.362672,51.349551,0</coordinates></Point></Placemark>
+<Placemark><name>Liebertwolkwitz</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.469354,51.28315,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Markkleeberg (9)</name>
+<Placemark><name>Finanz-Center Markkleeberg Rathausgalerie</name><description>Route #23</description><Point><coordinates>12.370541,51.279099,0</coordinates></Point></Placemark>
+<Placemark><name>Landschaftspark Cospuden</name><description>Route #25</description><Point><coordinates>12.352709,51.292005,0</coordinates></Point></Placemark>
+<Placemark><name>Uferweg Markkleeberger See</name><description>Route #79</description><Point><coordinates>12.420536,51.266826,0</coordinates></Point></Placemark>
+<Placemark><name>Spielplatz Markkleeberger See</name><description>Route #80</description><Point><coordinates>12.39438,51.271688,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Markkleeberg Ost</name><description>Route #81</description><Point><coordinates>12.397697,51.277507,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort GLOBUS-Warenhaus</name><description>Route #82</description><Point><coordinates>12.426741,51.283303,0</coordinates></Point></Placemark>
+<Placemark><name>Wachau</name><description>Route #83</description><Point><coordinates>12.423165,51.288404,0</coordinates></Point></Placemark>
+<Placemark><name>Geopfad</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.426303,51.259761,0</coordinates></Point></Placemark>
+<Placemark><name>Kanupark</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.426017,51.256348,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Torgau (6)</name>
+<Placemark><name>SB-Center SB-Standort Torgau Eilenburger Straße</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.98692,51.55495,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Torgau Friedrichplatz</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.998277,51.559862,0</coordinates></Point></Placemark>
+<Placemark><name>Schloss</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>13.007843,51.559292,0</coordinates></Point></Placemark>
+<Placemark><name>Großer Teich</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.9999,51.53632,0</coordinates></Point></Placemark>
+<Placemark><name>Gedenkstein</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>13.010068,51.558765,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center PEP Torgau</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.970817,51.562804,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Schkeuditz (5)</name>
+<Placemark><name>Biedermeierstrand</name><description>Route #60</description><Point><coordinates>12.32064,51.43012,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Schkeuditz</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.221965,51.39714,0</coordinates></Point></Placemark>
+<Placemark><name>Werbeliner See</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.316975,51.452929,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Flughafen Leipzig Halle</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.221182,51.42081,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Schkeuditz</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.217077,51.399819,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Großpösna (5)</name>
+<Placemark><name>Highfield Festival Störmthaler See</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.442078,51.225387,0</coordinates></Point></Placemark>
+<Placemark><name>Strand Störmthal</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.466409,51.244306,0</coordinates></Point></Placemark>
+<Placemark><name>Störmthaler See Skulptur</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.484686,51.23625,0</coordinates></Point></Placemark>
+<Placemark><name>Bergbau-Technik-Park</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.421155,51.245432,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Großpösna</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.49887,51.267462,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Zwenkau (5)</name>
+<Placemark><name>Belantis</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.315041,51.251375,0</coordinates></Point></Placemark>
+<Placemark><name>Zwenkauer See</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.314344,51.241436,0</coordinates></Point></Placemark>
+<Placemark><name>Kulturkino</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.332411,51.220303,0</coordinates></Point></Placemark>
+<Placemark><name>Trianon Eythra</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.308494,51.225072,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Zwenkau</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.325308,51.217733,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Delitzsch (4)</name>
+<Placemark><name>SB-Center SB-Standort Kaufland Delitzsch</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.324655,51.537586,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Delitzsch-Mitte</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.342546,51.524392,0</coordinates></Point></Placemark>
+<Placemark><name>Barockschloss</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.3284,51.522839,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Delitzsch-Markt</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.331981,51.522363,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Eilenburg (4)</name>
+<Placemark><name>Stadtpark/Tierpark</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.631126,51.453803,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Eilenburg-Ost</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.661272,51.469422,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Eilenburg-Hirschgasse</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.634706,51.46042,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Eilenburg Leipziger Höhe</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.619476,51.454832,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Markranstädt (3)</name>
+<Placemark><name>SB-Center SB-Standort Markranstädt Star-Tankstelle</name><description>Route #47</description><Point><coordinates>12.229232,51.308229,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Markranstädt</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.220493,51.301118,0</coordinates></Point></Placemark>
+<Placemark><name>Markranstädt</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.225985,51.306471,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Neukieritzsch (3)</name>
+<Placemark><name>Pleißebrücke</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.416941,51.154086,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Neukieritzsch</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.410785,51.151535,0</coordinates></Point></Placemark>
+<Placemark><name>Kieritzscher Höhe</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.377975,51.158913,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Oschatz (3)</name>
+<Placemark><name>Wilder Robert</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>13.10558,51.311245,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Oschatz Sporerstraße</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>13.108765,51.297704,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Oschatz Blomberger Straße</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>13.095316,51.299888,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Rötha (3)</name>
+<Placemark><name>Kahnsdorfer See</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.432823,51.17609,0</coordinates></Point></Placemark>
+<Placemark><name>Halde Trages</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.515753,51.179537,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Espenhain Parkplatz Post</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.46747,51.192832,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Frohburg (3)</name>
+<Placemark><name>Beratungs-Center Frohburg</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.559194,51.056684,0</coordinates></Point></Placemark>
+<Placemark><name>Schloss Frohburg</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.558289,51.05389,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Kohren-Sahlis</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.60434,51.018454,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Belgern-Schildau (3)</name>
+<Placemark><name>Neumühle</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.947111,51.472289,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Schildau</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.929188,51.456102,0</coordinates></Point></Placemark>
+<Placemark><name>Schildbergturm Schildau</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.889994,51.440607,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Borna (3)</name>
+<Placemark><name>Reichstor</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.500065,51.123873,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Borna</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.49634,51.122981,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Borna Kaufland</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.488663,51.109103,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Böhlen (2)</name>
+<Placemark><name>Zwenkauer See</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.362971,51.222643,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Böhlen</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.384772,51.20224,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Löbnitz (2)</name>
+<Placemark><name>SB-Center SB-Standort Löbnitz</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.465684,51.592408,0</coordinates></Point></Placemark>
+<Placemark><name>Seelhausener See</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.445736,51.589179,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Rackwitz (2)</name>
+<Placemark><name>Beratungs-Center Zschortau</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.357607,51.480285,0</coordinates></Point></Placemark>
+<Placemark><name>Schladitzer See</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.343474,51.435895,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Geithain (2)</name>
+<Placemark><name>Stadttor</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.689415,51.054678,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Geithain</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.695912,51.055551,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Kitzscher (2)</name>
+<Placemark><name>Beratungs-Center Kitzscher</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.553336,51.164373,0</coordinates></Point></Placemark>
+<Placemark><name>Bockwitzer See</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.543252,51.140537,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Taucha (2)</name>
+<Placemark><name>An der Parthe</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.501649,51.379066,0</coordinates></Point></Placemark>
+<Placemark><name>Finanz-Center Taucha</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.495088,51.38038,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Wermsdorf (2)</name>
+<Placemark><name>Schloss Hubertusburg</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.940128,51.277344,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Wermsdorf</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.941858,51.281268,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Dommitzsch (2)</name>
+<Placemark><name>Beratungs-Center Dommitzsch</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.882816,51.639395,0</coordinates></Point></Placemark>
+<Placemark><name>Fähre</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.89475,51.648341,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Groitzsch (2)</name>
+<Placemark><name>Burg Groitzsch</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.275036,51.159548,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Groitzsch</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.279439,51.15659,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Pegau (2)</name>
+<Placemark><name>Beratungs-Center Pegau</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.254938,51.166542,0</coordinates></Point></Placemark>
+<Placemark><name>Aussichtspunkt Stöntzscher Höhe</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.230248,51.16962,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Kohren-Sahlis (2)</name>
+<Placemark><name>Burg</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.600003,51.019093,0</coordinates></Point></Placemark>
+<Placemark><name>Schwind-Pavillon</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.600228,51.010793,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Borsdorf (2)</name>
+<Placemark><name>Borsdorf</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.539605,51.344981,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Borsdorf</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.537293,51.347343,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Bad Düben (2)</name>
+<Placemark><name>Burg Düben</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.580615,51.591961,0</coordinates></Point></Placemark>
+<Placemark><name>SB-Center SB-Standort Bad Düben-Nord</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.58853,51.595059,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Krostitz (2)</name>
+<Placemark><name>Krostitz</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.453836,51.466677,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Krostitz</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.454006,51.461087,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Mockrehna (2)</name>
+<Placemark><name>Beratungs-Center Mockrehna</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.81461,51.506575,0</coordinates></Point></Placemark>
+<Placemark><name>Kranichwarte</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.759666,51.553768,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Mügeln (2)</name>
+<Placemark><name>Wilder Robert</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>13.061948,51.236958,0</coordinates></Point></Placemark>
+<Placemark><name>Beratungs-Center Mügeln</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>13.047302,51.236893,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Dölitz (1)</name>
+<Placemark><name>Wassermühle</name><description>Route #21</description><Point><coordinates>12.388265,51.288924,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Radefeld (1)</name>
+<Placemark><name>Beratungs-Center Radefeld</name><description>Route #59</description><Point><coordinates>12.300652,51.420736,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Liebertwolkwitz (1)</name>
+<Placemark><name>Beratungs-Center Liebertwolkwitz</name><description>Route #78</description><Point><coordinates>12.460935,51.282563,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Panitzsch (1)</name>
+<Placemark><name>SB-Center SB-Standort Panitzsch</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.537599,51.3601,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Gruna (1)</name>
+<Placemark><name>Fähre</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.607916,51.527674,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Haubitz (1)</name>
+<Placemark><name>Haubitz</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.489472,51.152042,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Streitwald (1)</name>
+<Placemark><name>Streitwald</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.576707,51.042881,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Regis-Breitingen (1)</name>
+<Placemark><name>Beratungs-Center Regis-Breitingen</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.444008,51.091337,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Bad-Düben (1)</name>
+<Placemark><name>Finanz-Center Bad Düben-Mitte</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.583706,51.591175,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Dahlen (1)</name>
+<Placemark><name>Beratungs-Center Dahlen</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.996867,51.365795,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Belgern (1)</name>
+<Placemark><name>Beratungs-Center Belgern</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>13.124017,51.483013,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Beilrode (1)</name>
+<Placemark><name>Beratungs-Center Beilrode</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>13.066144,51.571574,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Gnandstein (1)</name>
+<Placemark><name>Burg</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.575344,51.018008,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Werben (1)</name>
+<Placemark><name>Werben</name><description>aktiv, außerhalb der Radroute</description><Point><coordinates>12.226718,51.195227,0</coordinates></Point></Placemark>
+</Folder>
+<Folder><name>Bald aktiv (50)</name>
+<Placemark><name>Knauthain Ritter-Pflugk-Straße</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.321015,51.275059,0</coordinates></Point></Placemark>
+<Placemark><name>Sternwarte</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.388096,51.333725,0</coordinates></Point></Placemark>
+<Placemark><name>Elsterflutbett</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.35248,51.318477,0</coordinates></Point></Placemark>
+<Placemark><name>Elsterbrücke</name><description>Schkeuditz | aktiv ab 01.08.2026</description><Point><coordinates>12.255782,51.38355,0</coordinates></Point></Placemark>
+<Placemark><name>„Speerwerfer“ Skulptur</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.351845,51.340034,0</coordinates></Point></Placemark>
+<Placemark><name>Illburg-Stadion</name><description>Eilenburg | aktiv ab 01.08.2026</description><Point><coordinates>12.624972,51.466863,0</coordinates></Point></Placemark>
+<Placemark><name>Auf der Asche</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.409186,51.291208,0</coordinates></Point></Placemark>
+<Placemark><name>Österreicher-Denkmal Kleinpösna</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.470605,51.304327,0</coordinates></Point></Placemark>
+<Placemark><name>Connewitz</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.373575,51.305546,0</coordinates></Point></Placemark>
+<Placemark><name>Silbersee</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.398731,51.297229,0</coordinates></Point></Placemark>
+<Placemark><name>Schloß Schönefeld</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.404911,51.359252,0</coordinates></Point></Placemark>
+<Placemark><name>Plagwitz Bahnhof</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.322755,51.325958,0</coordinates></Point></Placemark>
+<Placemark><name>Scheibenholzweg</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.364232,51.32686,0</coordinates></Point></Placemark>
+<Placemark><name>Neuseenbrücke</name><description>Markkleeberg | aktiv ab 01.08.2026</description><Point><coordinates>12.385252,51.254246,0</coordinates></Point></Placemark>
+<Placemark><name>Napoleonstein</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.407068,51.313704,0</coordinates></Point></Placemark>
+<Placemark><name>Abtnaundorf</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.416305,51.369291,0</coordinates></Point></Placemark>
+<Placemark><name>Kees‘scher Park</name><description>Markkleeberg | aktiv ab 01.08.2026</description><Point><coordinates>12.355309,51.281756,0</coordinates></Point></Placemark>
+<Placemark><name>Brücke Neue Linie</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.362231,51.304061,0</coordinates></Point></Placemark>
+<Placemark><name>Zitzschen Aussichtspunkt Zwenkauer See</name><description>Zwenkau | aktiv ab 01.08.2026</description><Point><coordinates>12.277501,51.22279,0</coordinates></Point></Placemark>
+<Placemark><name>Modellbahnpark Auenhain</name><description>Markkleeberg | aktiv ab 01.08.2026</description><Point><coordinates>12.430807,51.257493,0</coordinates></Point></Placemark>
+<Placemark><name>Apelstein Nr. 19</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.371773,51.375956,0</coordinates></Point></Placemark>
+<Placemark><name>Spielplatz Am Bagger</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.426406,51.374661,0</coordinates></Point></Placemark>
+<Placemark><name>Schlossteich</name><description>Rötha | aktiv ab 01.08.2026</description><Point><coordinates>12.406741,51.198761,0</coordinates></Point></Placemark>
+<Placemark><name>Sportplatz Mühlwiese</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.358818,51.35693,0</coordinates></Point></Placemark>
+<Placemark><name>Schwarzenberg-Denkmal Meusdorf</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.440847,51.293358,0</coordinates></Point></Placemark>
+<Placemark><name>Duft- und Tastgarten</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.395495,51.330312,0</coordinates></Point></Placemark>
+<Placemark><name>Fockeberg</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.362217,51.317154,0</coordinates></Point></Placemark>
+<Placemark><name>Bachviertel</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.36278,51.336254,0</coordinates></Point></Placemark>
+<Placemark><name>Haubitzer See</name><description>Neukieritzsch | aktiv ab 01.08.2026</description><Point><coordinates>12.479065,51.166636,0</coordinates></Point></Placemark>
+<Placemark><name>Labyrinth</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.365572,51.333544,0</coordinates></Point></Placemark>
+<Placemark><name>Am Alten Bahnhof</name><description>Markranstädt | aktiv ab 01.08.2026</description><Point><coordinates>12.233606,51.272063,0</coordinates></Point></Placemark>
+<Placemark><name>Stelzenhaus am Kanal</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.331999,51.328591,0</coordinates></Point></Placemark>
+<Placemark><name>Schleußig (Entenbrücke)</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.337691,51.321316,0</coordinates></Point></Placemark>
+<Placemark><name>An der Weißen Elster</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.338937,51.299785,0</coordinates></Point></Placemark>
+<Placemark><name>Siegfriedplatz</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.393468,51.296227,0</coordinates></Point></Placemark>
+<Placemark><name>Nonne</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.352176,51.324474,0</coordinates></Point></Placemark>
+<Placemark><name>Altlindenau</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.33206,51.340509,0</coordinates></Point></Placemark>
+<Placemark><name>Bistumshöhe</name><description>Zwenkau | aktiv ab 01.08.2026</description><Point><coordinates>12.323984,51.255161,0</coordinates></Point></Placemark>
+<Placemark><name>Biwakplatz am Zwenkauer See</name><description>Zwenkau | aktiv ab 01.08.2026</description><Point><coordinates>12.350496,51.238659,0</coordinates></Point></Placemark>
+<Placemark><name>Gottschedstraße</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.369886,51.340002,0</coordinates></Point></Placemark>
+<Placemark><name>Steinplatz</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.377283,51.317123,0</coordinates></Point></Placemark>
+<Placemark><name>Cospudener See Westufer</name><description>Markkleeberg | aktiv ab 01.08.2026</description><Point><coordinates>12.322961,51.264027,0</coordinates></Point></Placemark>
+<Placemark><name>Bayerischer Bahnhof</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.379653,51.329546,0</coordinates></Point></Placemark>
+<Placemark><name>Alt-Oetzsch</name><description>Markkleeberg | aktiv ab 01.08.2026</description><Point><coordinates>12.37842,51.280243,0</coordinates></Point></Placemark>
+<Placemark><name>Crostewitzer Höhe</name><description>Markkleeberg | aktiv ab 01.08.2026</description><Point><coordinates>12.403425,51.258559,0</coordinates></Point></Placemark>
+<Placemark><name>Palmengartenwehr</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.349458,51.335239,0</coordinates></Point></Placemark>
+<Placemark><name>Auenkirche</name><description>Markkleeberg | aktiv ab 01.08.2026</description><Point><coordinates>12.389941,51.277609,0</coordinates></Point></Placemark>
+<Placemark><name>Dorotheenplatz 3</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.367922,51.338096,0</coordinates></Point></Placemark>
+<Placemark><name>Weisse Brücke</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.355907,51.302773,0</coordinates></Point></Placemark>
+<Placemark><name>Sporthalle</name><description>Leipzig | aktiv ab 01.08.2026</description><Point><coordinates>12.38613,51.321071,0</coordinates></Point></Placemark>
+</Folder>
+</Document></kml>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Sparmania Routenplaner" xmlns="http://www.topografix.com/GPX/1/1">
+<metadata><name>Sparmania Rundkurs (106 Münzen, ~180.5 km)</name><time>2026-07-13T16:03:20Z</time></metadata>
+<wpt lat="51.34445" lon="12.36019"><name>START Start/Ziel: Hinrichsenstraße 21</name><sym>Flag</sym></wpt>
+<wpt lat="51.342284" lon="12.35988"><name>001 SB-Center SB-Standort Waldplatz</name><desc>Leipzig | km 0.4 ab Start | 0.4 km heim</desc></wpt>
+<wpt lat="51.342223" lon="12.357064"><name>002 Zugang zur Arena</name><desc>Leipzig | km 0.7 ab Start | 0.6 km heim</desc></wpt>
+<wpt lat="51.338766" lon="12.359367"><name>003 Schreberbrücke Stadthafen</name><desc>Leipzig | km 1.2 ab Start | 0.8 km heim</desc></wpt>
+<wpt lat="51.338405" lon="12.370165"><name>004 Kunsthalle der Sparkasse Leipzig</name><desc>Leipzig | km 2.1 ab Start | 1.4 km heim</desc></wpt>
+<wpt lat="51.338502" lon="12.374583"><name>005 SB-Center SB-Standort Leipzig Petersbogen</name><desc>Leipzig | km 2.6 ab Start | 1.6 km heim</desc></wpt>
+<wpt lat="51.340318" lon="12.373012"><name>006 SB-Center SB-Standort Leipzig Marktgalerie</name><desc>Leipzig | km 2.9 ab Start | 1.6 km heim</desc></wpt>
+<wpt lat="51.341371" lon="12.374058"><name>007 Finanz-Center Leipzig Hainstraße</name><desc>Leipzig | km 3.1 ab Start | 1.5 km heim</desc></wpt>
+<wpt lat="51.342511" lon="12.37045"><name>008 Richard-Wagner-Denkmal</name><desc>Leipzig | km 3.4 ab Start | 1.3 km heim</desc></wpt>
+<wpt lat="51.34366" lon="12.3724"><name>009 SB-Center SB-Standort Leipzig Höfe am Brühl</name><desc>Leipzig | km 3.7 ab Start | 1.2 km heim</desc></wpt>
+<wpt lat="51.340494" lon="12.374708"><name>010 Markt</name><desc>Leipzig | km 4.2 ab Start | 1.5 km heim</desc></wpt>
+<wpt lat="51.339862" lon="12.376643"><name>011 SB-Center SB-Standort Leipzig Galeria Kaufhof</name><desc>Leipzig | km 4.4 ab Start | 1.9 km heim</desc></wpt>
+<wpt lat="51.338916" lon="12.380172"><name>012 SB-Center SB-Standort Augustusplatz</name><desc>Leipzig | km 4.7 ab Start | 2.3 km heim</desc></wpt>
+<wpt lat="51.338605" lon="12.378349"><name>013 Beratungs-Center Uni-Campus Leipzig</name><desc>Leipzig | km 5.0 ab Start | 2.3 km heim</desc></wpt>
+<wpt lat="51.336962" lon="12.3767"><name>014 Finanz-Center Leipzig Schillerstraße</name><desc>Leipzig | km 5.3 ab Start | 2.0 km heim</desc></wpt>
+<wpt lat="51.334073" lon="12.378962"><name>015 Schachbrett</name><desc>Leipzig | km 6.0 ab Start | 2.3 km heim</desc></wpt>
+<wpt lat="51.332167" lon="12.370164"><name>016 Musikviertel Mendelssohnufer</name><desc>Leipzig | km 6.8 ab Start | 2.1 km heim</desc></wpt>
+<wpt lat="51.326645" lon="12.373533"><name>017 Löffelfamilie</name><desc>Leipzig | km 7.6 ab Start | 3.9 km heim</desc></wpt>
+<wpt lat="51.314076" lon="12.387344"><name>018 Panometer</name><desc>Leipzig | km 10.0 ab Start | 6.4 km heim</desc></wpt>
+<wpt lat="51.311712" lon="12.373437"><name>019 Finanz-Center Leipzig Connewitz</name><desc>Leipzig | km 11.6 ab Start | 5.9 km heim</desc></wpt>
+<wpt lat="51.308211" lon="12.362844"><name>020 Neue Linie</name><desc>Leipzig | km 12.9 ab Start | 7.6 km heim</desc></wpt>
+<wpt lat="51.288924" lon="12.388265"><name>021 Wassermühle</name><desc>Dölitz | km 17.1 ab Start | 11.2 km heim</desc></wpt>
+<wpt lat="51.284801" lon="12.381521"><name>022 Parkschloss</name><desc>Leipzig | km 18.2 ab Start | 10.8 km heim</desc></wpt>
+<wpt lat="51.279099" lon="12.370541"><name>023 Finanz-Center Markkleeberg Rathausgalerie</name><desc>Markkleeberg | km 19.7 ab Start | 9.5 km heim</desc></wpt>
+<wpt lat="51.282278" lon="12.347802"><name>024 Cospudener See Nordufer</name><desc>Leipzig | km 23.4 ab Start | 9.1 km heim</desc></wpt>
+<wpt lat="51.292005" lon="12.352709"><name>025 Landschaftspark Cospuden</name><desc>Markkleeberg | km 24.9 ab Start | 7.6 km heim</desc></wpt>
+<wpt lat="51.300526" lon="12.327868"><name>026 Beratungs-Center Leipzig Großzschocher</name><desc>Leipzig | km 27.3 ab Start | 8.8 km heim</desc></wpt>
+<wpt lat="51.306979" lon="12.343861"><name>027 Bootsanleger</name><desc>Leipzig | km 29.2 ab Start | 5.6 km heim</desc></wpt>
+<wpt lat="51.312031" lon="12.326771"><name>028 Radrennbahn</name><desc>Leipzig | km 31.1 ab Start | 6.5 km heim</desc></wpt>
+<wpt lat="51.323082" lon="12.331737"><name>029 SB-Center SB-Standort Leipzig PlagwitzCenter</name><desc>Leipzig | km 32.6 ab Start | 4.6 km heim</desc></wpt>
+<wpt lat="51.316687" lon="12.338271"><name>030 Sommerbad Küchenholzallee</name><desc>Leipzig | km 33.9 ab Start | 5.2 km heim</desc></wpt>
+<wpt lat="51.323333" lon="12.34336"><name>031 Beratungs-Center Leipzig Schleußig</name><desc>Leipzig | km 34.8 ab Start | 3.8 km heim</desc></wpt>
+<wpt lat="51.327991" lon="12.342064"><name>032 SB-Center SB-Standort Elster-Park</name><desc>Leipzig | km 35.6 ab Start | 3.6 km heim</desc></wpt>
+<wpt lat="51.330348" lon="12.35426"><name>033 Sachsenbrücke</name><desc>Leipzig | km 36.7 ab Start | 2.5 km heim</desc></wpt>
+<wpt lat="51.336656" lon="12.345218"><name>034 Spielplatz „Palmengarten“</name><desc>Leipzig | km 38.0 ab Start | 2.4 km heim</desc></wpt>
+<wpt lat="51.333624" lon="12.346215"><name>035 Steinbrücke</name><desc>Leipzig | km 38.5 ab Start | 2.1 km heim</desc></wpt>
+<wpt lat="51.331649" lon="12.338448"><name>036 Finanz-Center Leipzig Plagwitz</name><desc>Leipzig | km 39.3 ab Start | 3.9 km heim</desc></wpt>
+<wpt lat="51.33673" lon="12.335752"><name>037 SB-Center SB-Standort Leipzig Lindenauer Markt</name><desc>Leipzig | km 40.0 ab Start | 3.1 km heim</desc></wpt>
+<wpt lat="51.332366" lon="12.327654"><name>038 Entensteg am Kanal</name><desc>Leipzig | km 40.9 ab Start | 4.9 km heim</desc></wpt>
+<wpt lat="51.336123" lon="12.329636"><name>039 Beratungs-Center Leipzig Lindenau</name><desc>Leipzig | km 41.6 ab Start | 4.3 km heim</desc></wpt>
+<wpt lat="51.327646" lon="12.319986"><name>040 Spinnerei</name><desc>Leipzig | km 43.1 ab Start | 5.7 km heim</desc></wpt>
+<wpt lat="51.330583" lon="12.316088"><name>041 Beratungs-Center Leipzig Lützner Straße</name><desc>Leipzig | km 43.9 ab Start | 5.9 km heim</desc></wpt>
+<wpt lat="51.320286" lon="12.298547"><name>042 Heizhaus</name><desc>Leipzig | km 45.9 ab Start | 8.1 km heim</desc></wpt>
+<wpt lat="51.319764" lon="12.292112"><name>043 Finanz-Center Allee-Center Leipzig</name><desc>Leipzig | km 46.5 ab Start | 8.4 km heim</desc></wpt>
+<wpt lat="51.326898" lon="12.2924"><name>044 Schönauer Park</name><desc>Leipzig | km 47.5 ab Start | 8.9 km heim</desc></wpt>
+<wpt lat="51.311657" lon="12.281241"><name>045 Finanz-Center Leipzig Ratzelbogen</name><desc>Leipzig | km 49.8 ab Start | 9.8 km heim</desc></wpt>
+<wpt lat="51.304763" lon="12.252196"><name>046 Kulkwitzer See</name><desc>Leipzig | km 52.7 ab Start | 11.7 km heim</desc></wpt>
+<wpt lat="51.308229" lon="12.229232"><name>047 SB-Center SB-Standort Markranstädt Star-Tankstelle</name><desc>Markranstädt | km 57.2 ab Start | 13.0 km heim</desc></wpt>
+<wpt lat="51.321834" lon="12.267923"><name>048 SB-Center SB-Standort Plovdiver Straße</name><desc>Leipzig | km 61.2 ab Start | 10.4 km heim</desc></wpt>
+<wpt lat="51.342247" lon="12.255236"><name>049 Wasserturm Wachberg</name><desc>Leipzig | km 64.4 ab Start | 13.1 km heim</desc></wpt>
+<wpt lat="51.347302" lon="12.267078"><name>050 SB-Center SB-Standort Leipzig Löwencenter Burghausen</name><desc>Leipzig | km 65.9 ab Start | 12.5 km heim</desc></wpt>
+<wpt lat="51.359509" lon="12.291376"><name>051 Beratungs-Center Leipzig Böhlitz-Ehrenberg</name><desc>Leipzig | km 71.5 ab Start | 7.8 km heim</desc></wpt>
+<wpt lat="51.357624" lon="12.30671"><name>052 Am Sportpark</name><desc>Leipzig | km 72.6 ab Start | 5.3 km heim</desc></wpt>
+<wpt lat="51.349212" lon="12.310072"><name>053 Beratungs-Center Leipzig Leutzsch</name><desc>Leipzig | km 74.2 ab Start | 4.8 km heim</desc></wpt>
+<wpt lat="51.351904" lon="12.341753"><name>054 Elsterflutbett</name><desc>Leipzig | km 77.3 ab Start | 2.0 km heim</desc></wpt>
+<wpt lat="51.362416" lon="12.330277"><name>055 Nahleberg</name><desc>Leipzig | km 79.4 ab Start | 4.0 km heim</desc></wpt>
+<wpt lat="51.369436" lon="12.316366"><name>056 Auensee</name><desc>Leipzig | km 82.4 ab Start | 5.2 km heim</desc></wpt>
+<wpt lat="51.37327" lon="12.328098"><name>057 Beratungs-Center Leipzig Wahren</name><desc>Leipzig | km 83.7 ab Start | 5.7 km heim</desc></wpt>
+<wpt lat="51.392067" lon="12.327439"><name>058 Beratungs-Center Leipzig Lindenthal</name><desc>Leipzig | km 86.3 ab Start | 7.7 km heim</desc></wpt>
+<wpt lat="51.420736" lon="12.300652"><name>059 Beratungs-Center Radefeld</name><desc>Radefeld | km 92.6 ab Start | 12.3 km heim</desc></wpt>
+<wpt lat="51.43012" lon="12.32064"><name>060 Biedermeierstrand</name><desc>Schkeuditz | km 95.1 ab Start | 11.5 km heim</desc></wpt>
+<wpt lat="51.395025" lon="12.37255"><name>061 Beratungs-Center Wiederitzsch</name><desc>Leipzig | km 103.3 ab Start | 7.5 km heim</desc></wpt>
+<wpt lat="51.396953" lon="12.399627"><name>062 SB-Center SB-Standort Leipziger Messe</name><desc>Leipzig | km 105.7 ab Start | 8.5 km heim</desc></wpt>
+<wpt lat="51.401072" lon="12.396488"><name>063 SB-Center SB-Standort Leipzig Globus Markt Sachsenpark</name><desc>Leipzig | km 106.4 ab Start | 8.5 km heim</desc></wpt>
+<wpt lat="51.371878" lon="12.380804"><name>064 Parkbühne Geyserhaus</name><desc>Leipzig | km 110.7 ab Start | 4.8 km heim</desc></wpt>
+<wpt lat="51.365407" lon="12.385192"><name>065 Beratungs-Center Leipzig Eutritzsch</name><desc>Leipzig | km 111.7 ab Start | 4.0 km heim</desc></wpt>
+<wpt lat="51.366995" lon="12.375674"><name>066 SB-Center SB-Standort Leipzig Konsum Coppistraße</name><desc>Leipzig | km 112.5 ab Start | 4.3 km heim</desc></wpt>
+<wpt lat="51.361476" lon="12.370509"><name>067 Finanz-Center Leipzig Gohlis-Arkaden</name><desc>Leipzig | km 113.2 ab Start | 3.1 km heim</desc></wpt>
+<wpt lat="51.363074" lon="12.362482"><name>068 SB-Center SB-Standort Leipzig Kaufland-Georg-Schumann-Straße</name><desc>Leipzig | km 113.9 ab Start | 2.7 km heim</desc></wpt>
+<wpt lat="51.376281" lon="12.365893"><name>069 Beratungs-Center Leipzig Max-Liebermann-Straße</name><desc>Leipzig | km 115.7 ab Start | 4.5 km heim</desc></wpt>
+<wpt lat="51.375282" lon="12.412567"><name>070 Beratungs-Center Leipzig Mockau-Center</name><desc>Leipzig | km 119.1 ab Start | 6.4 km heim</desc></wpt>
+<wpt lat="51.358199" lon="12.417209"><name>071 Finanz-Center Leipzig Schönefeld</name><desc>Leipzig | km 121.4 ab Start | 6.4 km heim</desc></wpt>
+<wpt lat="51.357374" lon="12.425744"><name>072 SB-Center SB-Standort Leipzig Einkaufszentrum Löbauer Straße</name><desc>Leipzig | km 122.1 ab Start | 6.7 km heim</desc></wpt>
+<wpt lat="51.356778" lon="12.45968"><name>073 Beratungs-Center Leipzig Goldsternstraße</name><desc>Leipzig | km 127.2 ab Start | 8.9 km heim</desc></wpt>
+<wpt lat="51.349911" lon="12.476601"><name>074 SB-Center SB-Standort Leipzig Paunsdorfcenter</name><desc>Leipzig | km 129.5 ab Start | 9.6 km heim</desc></wpt>
+<wpt lat="51.341919" lon="12.478368"><name>075 Engelsdorf</name><desc>Leipzig | km 131.4 ab Start | 10.9 km heim</desc></wpt>
+<wpt lat="51.334984" lon="12.484862"><name>076 Beratungs-Center Leipzig Engelsdorf</name><desc>Leipzig | km 133.0 ab Start | 11.1 km heim</desc></wpt>
+<wpt lat="51.305107" lon="12.464585"><name>077 SB-Center SB-Standort Holzhausen</name><desc>Leipzig | km 137.1 ab Start | 11.2 km heim</desc></wpt>
+<wpt lat="51.282563" lon="12.460935"><name>078 Beratungs-Center Liebertwolkwitz</name><desc>Liebertwolkwitz | km 139.9 ab Start | 11.1 km heim</desc></wpt>
+<wpt lat="51.266826" lon="12.420536"><name>079 Uferweg Markkleeberger See</name><desc>Markkleeberg | km 144.1 ab Start | 16.6 km heim</desc></wpt>
+<wpt lat="51.271688" lon="12.39438"><name>080 Spielplatz Markkleeberger See</name><desc>Markkleeberg | km 146.2 ab Start | 13.2 km heim</desc></wpt>
+<wpt lat="51.277507" lon="12.397697"><name>081 Beratungs-Center Markkleeberg Ost</name><desc>Markkleeberg | km 147.1 ab Start | 13.4 km heim</desc></wpt>
+<wpt lat="51.283303" lon="12.426741"><name>082 SB-Center SB-Standort GLOBUS-Warenhaus</name><desc>Markkleeberg | km 150.1 ab Start | 10.6 km heim</desc></wpt>
+<wpt lat="51.288404" lon="12.423165"><name>083 Wachau</name><desc>Markkleeberg | km 151.4 ab Start | 9.9 km heim</desc></wpt>
+<wpt lat="51.304529" lon="12.424608"><name>084 Beratungs-Center Leipzig Probstheida</name><desc>Leipzig | km 154.0 ab Start | 7.4 km heim</desc></wpt>
+<wpt lat="51.300206" lon="12.410043"><name>085 Lößnig</name><desc>Leipzig | km 155.5 ab Start | 8.6 km heim</desc></wpt>
+<wpt lat="51.300025" lon="12.396599"><name>086 SB-Center SB-Standort Leipzig Lebensmittelmarkt Lößnig</name><desc>Leipzig | km 156.6 ab Start | 10.6 km heim</desc></wpt>
+<wpt lat="51.305615" lon="12.396756"><name>087 Beratungs-Center Leipzig Marienbrunn</name><desc>Leipzig | km 157.3 ab Start | 6.0 km heim</desc></wpt>
+<wpt lat="51.313807" lon="12.404334"><name>088 SB-Center SB-Standort Leipzig ARAL-Tankstelle</name><desc>Leipzig | km 158.7 ab Start | 6.0 km heim</desc></wpt>
+<wpt lat="51.312898" lon="12.404927"><name>089 Marienquelle</name><desc>Leipzig | km 159.1 ab Start | 6.1 km heim</desc></wpt>
+<wpt lat="51.317086" lon="12.404369"><name>090 Alte Messe</name><desc>Leipzig | km 160.0 ab Start | 5.7 km heim</desc></wpt>
+<wpt lat="51.319259" lon="12.399407"><name>091 SB-Center SB-Standort Leipzig HIT-Markt</name><desc>Leipzig | km 160.5 ab Start | 4.6 km heim</desc></wpt>
+<wpt lat="51.319664" lon="12.419221"><name>092 Beratungs-Center Leipzig Stötteritz</name><desc>Leipzig | km 162.8 ab Start | 6.3 km heim</desc></wpt>
+<wpt lat="51.324025" lon="12.414693"><name>093 SB-Center SB-Standort Leipzig Breslauer Straße</name><desc>Leipzig | km 163.8 ab Start | 6.4 km heim</desc></wpt>
+<wpt lat="51.331934" lon="12.416149"><name>094 Anger</name><desc>Leipzig | km 165.7 ab Start | 5.2 km heim</desc></wpt>
+<wpt lat="51.33499" lon="12.410502"><name>095 Beratungs-Center Leipzig Anger-Crottendorf</name><desc>Leipzig | km 166.7 ab Start | 5.3 km heim</desc></wpt>
+<wpt lat="51.345991" lon="12.415699"><name>096 SB-Center SB-Standort Leipzig Torgauer Platz</name><desc>Leipzig | km 168.2 ab Start | 4.4 km heim</desc></wpt>
+<wpt lat="51.345707" lon="12.400187"><name>097 Otto-Runki-Platz</name><desc>Leipzig | km 169.4 ab Start | 3.2 km heim</desc></wpt>
+<wpt lat="51.339419" lon="12.401212"><name>098 Finanz-Center Leipzig Reudnitz</name><desc>Leipzig | km 170.3 ab Start | 3.9 km heim</desc></wpt>
+<wpt lat="51.334733" lon="12.398243"><name>099 Reudnitz</name><desc>Leipzig | km 171.0 ab Start | 3.9 km heim</desc></wpt>
+<wpt lat="51.324988" lon="12.395915"><name>100 Friedenspark</name><desc>Leipzig | km 172.4 ab Start | 4.6 km heim</desc></wpt>
+<wpt lat="51.331517" lon="12.386221"><name>101 SB-Center SB-Standort Leipzig Uniklinik Liebigstraße</name><desc>Leipzig | km 173.9 ab Start | 3.1 km heim</desc></wpt>
+<wpt lat="51.343684" lon="12.381863"><name>102 SB-Center Hauptbahnhof Leipzig Osthalle</name><desc>Leipzig | km 175.8 ab Start | 1.8 km heim</desc></wpt>
+<wpt lat="51.344759" lon="12.379495"><name>103 Sparkasse Leipzig - SB-Center Hauptbahnhof Leipzig Westhalle</name><desc>Leipzig | km 176.0 ab Start | 1.6 km heim</desc></wpt>
+<wpt lat="51.3466" lon="12.374645"><name>104 Finanz-Center Leipzig Löhrs Carré</name><desc>Leipzig | km 176.6 ab Start | 1.2 km heim</desc></wpt>
+<wpt lat="51.352092" lon="12.369393"><name>105 Münze beim Elefanten</name><desc>Leipzig | km 177.9 ab Start | 2.2 km heim</desc></wpt>
+<wpt lat="51.349551" lon="12.362672"><name>106 Rosental Wiese Leibnizweg</name><desc>Leipzig | km 179.6 ab Start | 0.9 km heim</desc></wpt>
+<trk><name>Sparmania Rundkurs</name><trkseg>
+<trkpt lat="51.34445" lon="12.36019"/>
+<trkpt lat="51.342284" lon="12.35988"/>
+<trkpt lat="51.342223" lon="12.357064"/>
+<trkpt lat="51.338766" lon="12.359367"/>
+<trkpt lat="51.338405" lon="12.370165"/>
+<trkpt lat="51.338502" lon="12.374583"/>
+<trkpt lat="51.340318" lon="12.373012"/>
+<trkpt lat="51.341371" lon="12.374058"/>
+<trkpt lat="51.342511" lon="12.37045"/>
+<trkpt lat="51.34366" lon="12.3724"/>
+<trkpt lat="51.340494" lon="12.374708"/>
+<trkpt lat="51.339862" lon="12.376643"/>
+<trkpt lat="51.338916" lon="12.380172"/>
+<trkpt lat="51.338605" lon="12.378349"/>
+<trkpt lat="51.336962" lon="12.3767"/>
+<trkpt lat="51.334073" lon="12.378962"/>
+<trkpt lat="51.332167" lon="12.370164"/>
+<trkpt lat="51.326645" lon="12.373533"/>
+<trkpt lat="51.314076" lon="12.387344"/>
+<trkpt lat="51.311712" lon="12.373437"/>
+<trkpt lat="51.308211" lon="12.362844"/>
+<trkpt lat="51.288924" lon="12.388265"/>
+<trkpt lat="51.284801" lon="12.381521"/>
+<trkpt lat="51.279099" lon="12.370541"/>
+<trkpt lat="51.282278" lon="12.347802"/>
+<trkpt lat="51.292005" lon="12.352709"/>
+<trkpt lat="51.300526" lon="12.327868"/>
+<trkpt lat="51.306979" lon="12.343861"/>
+<trkpt lat="51.312031" lon="12.326771"/>
+<trkpt lat="51.323082" lon="12.331737"/>
+<trkpt lat="51.316687" lon="12.338271"/>
+<trkpt lat="51.323333" lon="12.34336"/>
+<trkpt lat="51.327991" lon="12.342064"/>
+<trkpt lat="51.330348" lon="12.35426"/>
+<trkpt lat="51.336656" lon="12.345218"/>
+<trkpt lat="51.333624" lon="12.346215"/>
+<trkpt lat="51.331649" lon="12.338448"/>
+<trkpt lat="51.33673" lon="12.335752"/>
+<trkpt lat="51.332366" lon="12.327654"/>
+<trkpt lat="51.336123" lon="12.329636"/>
+<trkpt lat="51.327646" lon="12.319986"/>
+<trkpt lat="51.330583" lon="12.316088"/>
+<trkpt lat="51.320286" lon="12.298547"/>
+<trkpt lat="51.319764" lon="12.292112"/>
+<trkpt lat="51.326898" lon="12.2924"/>
+<trkpt lat="51.311657" lon="12.281241"/>
+<trkpt lat="51.304763" lon="12.252196"/>
+<trkpt lat="51.308229" lon="12.229232"/>
+<trkpt lat="51.321834" lon="12.267923"/>
+<trkpt lat="51.342247" lon="12.255236"/>
+<trkpt lat="51.347302" lon="12.267078"/>
+<trkpt lat="51.359509" lon="12.291376"/>
+<trkpt lat="51.357624" lon="12.30671"/>
+<trkpt lat="51.349212" lon="12.310072"/>
+<trkpt lat="51.351904" lon="12.341753"/>
+<trkpt lat="51.362416" lon="12.330277"/>
+<trkpt lat="51.369436" lon="12.316366"/>
+<trkpt lat="51.37327" lon="12.328098"/>
+<trkpt lat="51.392067" lon="12.327439"/>
+<trkpt lat="51.420736" lon="12.300652"/>
+<trkpt lat="51.43012" lon="12.32064"/>
+<trkpt lat="51.395025" lon="12.37255"/>
+<trkpt lat="51.396953" lon="12.399627"/>
+<trkpt lat="51.401072" lon="12.396488"/>
+<trkpt lat="51.371878" lon="12.380804"/>
+<trkpt lat="51.365407" lon="12.385192"/>
+<trkpt lat="51.366995" lon="12.375674"/>
+<trkpt lat="51.361476" lon="12.370509"/>
+<trkpt lat="51.363074" lon="12.362482"/>
+<trkpt lat="51.376281" lon="12.365893"/>
+<trkpt lat="51.375282" lon="12.412567"/>
+<trkpt lat="51.358199" lon="12.417209"/>
+<trkpt lat="51.357374" lon="12.425744"/>
+<trkpt lat="51.356778" lon="12.45968"/>
+<trkpt lat="51.349911" lon="12.476601"/>
+<trkpt lat="51.341919" lon="12.478368"/>
+<trkpt lat="51.334984" lon="12.484862"/>
+<trkpt lat="51.305107" lon="12.464585"/>
+<trkpt lat="51.282563" lon="12.460935"/>
+<trkpt lat="51.266826" lon="12.420536"/>
+<trkpt lat="51.271688" lon="12.39438"/>
+<trkpt lat="51.277507" lon="12.397697"/>
+<trkpt lat="51.283303" lon="12.426741"/>
+<trkpt lat="51.288404" lon="12.423165"/>
+<trkpt lat="51.304529" lon="12.424608"/>
+<trkpt lat="51.300206" lon="12.410043"/>
+<trkpt lat="51.300025" lon="12.396599"/>
+<trkpt lat="51.305615" lon="12.396756"/>
+<trkpt lat="51.313807" lon="12.404334"/>
+<trkpt lat="51.312898" lon="12.404927"/>
+<trkpt lat="51.317086" lon="12.404369"/>
+<trkpt lat="51.319259" lon="12.399407"/>
+<trkpt lat="51.319664" lon="12.419221"/>
+<trkpt lat="51.324025" lon="12.414693"/>
+<trkpt lat="51.331934" lon="12.416149"/>
+<trkpt lat="51.33499" lon="12.410502"/>
+<trkpt lat="51.345991" lon="12.415699"/>
+<trkpt lat="51.345707" lon="12.400187"/>
+<trkpt lat="51.339419" lon="12.401212"/>
+<trkpt lat="51.334733" lon="12.398243"/>
+<trkpt lat="51.324988" lon="12.395915"/>
+<trkpt lat="51.331517" lon="12.386221"/>
+<trkpt lat="51.343684" lon="12.381863"/>
+<trkpt lat="51.344759" lon="12.379495"/>
+<trkpt lat="51.3466" lon="12.374645"/>
+<trkpt lat="51.352092" lon="12.369393"/>
+<trkpt lat="51.349551" lon="12.362672"/>
+<trkpt lat="51.34445" lon="12.36019"/>
+</trkseg></trk></gpx>

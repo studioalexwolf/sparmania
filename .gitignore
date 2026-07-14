@@ -1,0 +1,26 @@
+# Kommentare muessen auf EIGENEN Zeilen stehen (kein Inline-# in .gitignore).
+
+# --- Geheimnisse: niemals ins oeffentliche Repo ---
+# Android-Signing-Keystore
+android/*.keystore
+# Offizielles Sparkassen-Logo: nur lokal, nicht oeffentlich
+app/vendor/logo.svg
+
+# --- Rohdaten mit geheimen Coin-Tokens ---
+data/coins-raw.json
+# OSRM-Distanzmatrix-Cache (gross, ableitbar)
+data/bike-matrix.json
+
+# --- Build-Artefakte ---
+android/build/
+android/assets/
+# signierte APK wird als GitHub-Release verteilt
+*.apk
+*.apk.idsig
+*.idsig
+
+# --- Tooling / OS ---
+.playwright-mcp/
+__pycache__/
+*.pyc
+.DS_Store

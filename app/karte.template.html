@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#EE0000">
+<title>Sparmania Route</title>
+__PWA_HEAD__
+<script>
+/* Dark-Mode-Erkennung vor dem ersten Paint. In der App entscheidet der native
+   ?dark=1-Parameter (System-Dunkelmodus), im Browser die Media Query —
+   inklusive Live-Umschaltung, wenn das System das Theme wechselt. */
+try{
+  var isApp=typeof AndroidApp!=="undefined";
+  var forcedDark=/[?&]dark=1/.test(location.search);
+  var setDark=function(on){
+    document.documentElement.classList.toggle("dark",!!on);
+    var m=document.querySelector('meta[name="theme-color"]');
+    if(m) m.setAttribute("content",on?"#141414":"#EE0000");
+  };
+  var mq=(!isApp&&window.matchMedia)?matchMedia("(prefers-color-scheme: dark)"):null;
+  setDark(forcedDark||(mq&&mq.matches));
+  if(mq&&!forcedDark){
+    var onMq=function(e){ setDark(e.matches); };
+    if(mq.addEventListener) mq.addEventListener("change",onMq);
+    else if(mq.addListener) mq.addListener(onMq);
+  }
+}catch(e){}
+</script>
+<style>
+__LEAFLET_CSS__
+</style>
+<style>
+/* ===== Sparkasse-Marke auf Material-3-Struktur =====
+   Rot #EE0000, Schwarz/Weiß/Grau, scharfe Ecken (--radius:0).
+   --brand ist in beiden Themes das konstante Sparkassen-Rot (gefüllte Flächen,
+   weißer Text); --primary ist die theme-abhängige Akzentfarbe (Text/Links). */
+:root{
+  --brand:#EE0000; --on-brand:#FFFFFF;
+  --primary:#D50000; --on-primary:#FFFFFF; --primary-container:#FFDAD3; --on-primary-container:#5C0000;
+  --secondary:#4A4645; --secondary-container:#E6E1E0; --on-secondary-container:#1A1110;
+  --surface:#FFFFFF; --surface-dim:#E5E1E0; --surface-container:#F4F1F0; --surface-container-high:#EDE9E8; --surface-container-highest:#E7E3E2;
+  --on-surface:#141414; --on-surface-variant:#4A4645; --outline:#7A7573; --outline-variant:#CBC5C4;
+  --error:#8A0000; --on-error:#fff; --error-container:#FFDAD3; --on-error-container:#410000;
+  --inv-surface:#2C2A2A; --inv-on:#F3F0EF; --veil:rgba(255,255,255,.92); --bar-bg:rgba(0,0,0,.12); --state:rgba(238,0,0,.08);
+  --nav-h:76px;
+  --elev1:0 1px 2px rgba(0,0,0,.3),0 1px 3px 1px rgba(0,0,0,.15);
+  --elev2:0 1px 2px rgba(0,0,0,.3),0 2px 6px 2px rgba(0,0,0,.15);
+  --font-head:"SparkasseWeb","Sparkasse","Arial","Helvetica",sans-serif;
+  --font-body:"SparkasseWebLight","SparkasseWeb","Arial","Helvetica",sans-serif;
+}
+:root.dark{
+  --brand:#EE0000; --on-brand:#FFFFFF;
+  --primary:#FF897C; --on-primary:#5C0000; --primary-container:#8A0000; --on-primary-container:#FFDAD3;
+  --secondary:#C9C4C3; --secondary-container:#3A3635; --on-secondary-container:#EAE5E4;
+  --surface:#141414; --surface-dim:#141414; --surface-container:#211F1F; --surface-container-high:#2B2928; --surface-container-highest:#363433;
+  --on-surface:#E6E1E0; --on-surface-variant:#CBC5C4; --outline:#948F8D; --outline-variant:#4A4645;
+  --error:#FFB4AB; --on-error:#690005; --error-container:#93000A; --on-error-container:#FFDAD6;
+  --inv-surface:#E6E1E0; --inv-on:#2C2A2A; --veil:rgba(20,20,20,.92); --bar-bg:rgba(255,255,255,.15); --state:rgba(255,137,124,.14);
+}
+:root.dark .leaflet-tile{filter:brightness(.82) contrast(1.05) saturate(.9)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden}
+body{font-family:var(--font-body);background:var(--surface);color:var(--on-surface);display:flex;flex-direction:column}
+#err{display:none;background:var(--error);color:var(--on-error);padding:8px 16px;font-size:13px;z-index:5000}
+main{flex:1;position:relative;overflow:hidden}
+section.view{position:absolute;inset:0;display:none;flex-direction:column}
+body[data-tab="home"] #view-home, body[data-tab="karte"] #view-karte,
+body[data-tab="nav"] #view-nav, body[data-tab="profil"] #view-profil{display:flex}
+
+/* ===== Typografie ===== */
+.title-l{font-size:22px;font-weight:400;line-height:28px}
+.title-m{font-size:16px;font-weight:500;line-height:24px}
+.body-m{font-size:14px;line-height:20px;color:var(--on-surface-variant)}
+.label{font-size:12px;font-weight:500;line-height:16px}
+
+/* ===== App Bar ===== */
+.appbar{display:flex;align-items:center;gap:8px;padding:12px 16px 8px;padding-top:calc(12px + env(safe-area-inset-top))}
+.appbar .title-l{flex:1}
+.iconbtn{width:44px;height:44px;border:none;border-radius:22px;background:transparent;display:flex;align-items:center;justify-content:center;color:var(--on-surface-variant);position:relative}
+.iconbtn:active{background:var(--state)}
+.iconbtn svg{width:24px;height:24px;fill:currentColor}
+
+/* ===== Cards / Buttons / Chips ===== */
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 16px calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px)}
+.card{background:var(--surface-container);border-radius:16px;padding:16px;margin-bottom:12px}
+.card.hero{background:var(--brand);color:var(--on-brand)}
+.btn{border:none;border-radius:20px;height:40px;padding:0 20px;font-size:14px;font-weight:500;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn.filled{background:var(--brand);color:var(--on-brand)}
+.btn.filled:active{box-shadow:var(--elev1)}
+.btn.tonal{background:var(--secondary-container);color:var(--on-secondary-container)}
+.btn.text{background:transparent;color:var(--primary)}
+.btn.error{background:var(--error-container);color:var(--on-error-container)}
+.btn:disabled{opacity:.4}
+.btn svg{width:18px;height:18px;fill:currentColor}
+.chip{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:8px;border:1px solid var(--outline-variant);background:var(--surface);font-size:13px;font-weight:500;color:var(--on-surface-variant)}
+.chip.on{background:var(--primary-container);border-color:transparent;color:var(--on-primary-container)}
+.progressbar{height:8px;border-radius:4px;background:var(--bar-bg);overflow:hidden;margin:10px 0 6px}
+.progressbar>div{height:100%;border-radius:4px;background:var(--primary);width:0%;transition:width .3s}
+.statrow{display:flex;gap:8px;margin-bottom:12px}
+.stat{flex:1;background:var(--surface-container);border-radius:16px;padding:12px;text-align:center}
+.stat b{display:block;font-size:17px;font-weight:500;color:var(--on-surface)}
+.stat span{font-size:11px;color:var(--on-surface-variant)}
+
+/* ===== Coin-Liste ===== */
+.listcard{background:var(--surface-container);border-radius:16px;overflow:hidden;margin-bottom:12px}
+.row{display:flex;align-items:center;gap:12px;min-height:56px;padding:6px 16px;border-bottom:1px solid var(--outline-variant)}
+.row:last-child{border-bottom:none}
+.row:active{background:var(--state)}
+.row.flash{animation:flash 1.8s}
+@keyframes flash{0%,55%{background:var(--primary-container)}100%{background:transparent}}
+.sect{font-size:12px;font-weight:500;color:var(--on-surface-variant);margin:16px 4px 6px;letter-spacing:.3px}
+.row.done .t{opacity:.45;text-decoration:line-through}
+.badge{min-width:32px;height:32px;border-radius:16px;background:var(--brand);color:var(--on-brand);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.row.core .badge{box-shadow:inset 0 0 0 2px #1A1110}
+.row .t{flex:1;min-width:0}
+.row .t b{display:block;font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .t small{font-size:12px;color:var(--on-surface-variant)}
+.row .km{font-size:12px;text-align:right;color:var(--on-surface-variant);white-space:nowrap}
+input[type=checkbox]{width:20px;height:20px;accent-color:var(--primary);flex-shrink:0}
+
+/* ===== Karte ===== */
+.mapslot{flex:1;position:relative;overflow:hidden}
+#maprot{position:absolute;inset:0;z-index:1;transition:transform .5s linear}
+/* groß genug, dass bei jedem Drehwinkel die Bildschirm-Diagonale abgedeckt ist;
+   inset:auto MUSS vor left/top stehen (Kurzschreibweise würde sie sonst zurücksetzen) */
+#maprot.rot{inset:auto;width:220%;height:135%;left:-60%;top:-17.5%;transform:rotate(var(--maprot,0deg))}
+#maprot.rot .pin{transform:rotate(var(--counterrot,0deg));transition:transform .5s linear}
+#map{position:absolute;inset:0}
+.map-chips{position:absolute;top:calc(8px + env(safe-area-inset-top));left:12px;right:12px;z-index:800;display:flex;gap:8px;flex-wrap:wrap}
+.map-chips .chip{box-shadow:var(--elev1)}
+.fab{position:absolute;right:16px;bottom:20px;z-index:800;width:56px;height:56px;border:none;border-radius:16px;background:var(--primary-container);color:var(--on-primary-container);box-shadow:var(--elev2);display:flex;align-items:center;justify-content:center}
+.fab svg{width:24px;height:24px;fill:currentColor}
+.fab.on{background:var(--brand);color:var(--on-brand)}
+.pin{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--on-brand);background:var(--brand);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.pin.done{background:#9AA0A0;color:#fff}
+.pin.out{background:#3C6472;color:#fff;width:22px;height:22px;font-size:10px}
+.pin.fut{background:#6E5A73;color:#fff;width:22px;height:22px;font-size:10px}
+.pin.start{background:#1A1110;color:#fff;width:34px;height:34px;font-size:16px}
+.pin.next{animation:puls 1.3s infinite}
+.pin.target{outline:3px solid #1A1110;outline-offset:2px}
+@keyframes puls{0%{box-shadow:0 0 0 0 rgba(238,0,0,.7)}100%{box-shadow:0 0 0 14px rgba(238,0,0,0)}}
+.gpswrap{position:relative;width:18px;height:18px}
+.gpsdot{width:18px;height:18px;border-radius:50%;background:#1a73e8;border:3px solid #fff;box-shadow:0 0 6px rgba(0,0,0,.5)}
+.gpsarrow{position:absolute;left:3px;top:-10px;width:0;height:0;border:6px solid transparent;border-bottom:9px solid #1a73e8;transform-origin:6px 19px;transform:rotate(var(--gpsrot,0deg));display:var(--gpsshow,none)}
+
+/* ===== Navigation ===== */
+#navbanner{position:absolute;top:calc(8px + env(safe-area-inset-top));left:12px;right:12px;z-index:900;background:var(--brand);color:var(--on-brand);border-radius:16px;padding:12px 16px;display:none;align-items:center;gap:14px;box-shadow:var(--elev2)}
+#navbanner svg{width:34px;height:34px;fill:currentColor;flex-shrink:0}
+#navbanner .d{font-size:20px;font-weight:500}
+#navbanner .s{font-size:14px;opacity:.9}
+#navcard{position:absolute;left:12px;right:12px;bottom:12px;z-index:900;background:var(--surface-container-high);border-radius:20px;padding:14px 16px;box-shadow:var(--elev2)}
+#navcard .head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+#navcard .head .t{flex:1;min-width:0}
+#navcard .head b{display:block;font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#navcard .head small{color:var(--on-surface-variant);font-size:12px}
+#navcard .actions{display:flex;gap:8px;flex-wrap:wrap}
+#navcard .actions .btn{flex:1;min-width:0;padding:0 8px;font-size:13px}
+#navstart{position:absolute;inset:0;z-index:850;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:var(--veil);backdrop-filter:blur(2px);text-align:center;padding:24px}
+#compass{position:absolute;right:12px;top:calc(env(safe-area-inset-top) + 100px);z-index:900;width:44px;height:44px;border:none;border-radius:22px;background:var(--surface-container-high);color:var(--on-surface);box-shadow:var(--elev1);font-weight:700;font-size:13px}
+.recenter{position:absolute;right:16px;bottom:150px;z-index:900;display:none}
+
+/* ===== Bottom Navigation ===== */
+#bottomnav{display:flex;background:var(--surface-container);padding-bottom:env(safe-area-inset-bottom);height:calc(var(--nav-h) + env(safe-area-inset-bottom));position:relative;z-index:2000}
+#bottomnav button{flex:1;border:none;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:inherit;font-size:12px;font-weight:500;color:var(--on-surface-variant);padding-top:10px}
+#bottomnav .ind{width:56px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center}
+#bottomnav svg{width:24px;height:24px;fill:currentColor}
+#bottomnav button.on{color:var(--primary)}
+#bottomnav button.on .ind{background:var(--primary-container);color:var(--on-primary-container)}
+
+/* ===== Sheet / Toast ===== */
+#scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:3000;display:none}
+#sheet{position:fixed;left:0;right:0;bottom:0;z-index:3100;background:var(--surface-container);border-radius:28px 28px 0 0;padding:8px 24px calc(20px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .25s}
+#sheet.open{transform:translateY(0)}
+#sheet .handle{width:32px;height:4px;border-radius:2px;background:var(--outline);margin:8px auto 14px}
+#sheet .meta{display:flex;gap:8px;margin:6px 0 14px;flex-wrap:wrap}
+#sheet .btns{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+#sheet .btns .btn{height:44px}
+#sheet .checkrow{display:flex;align-items:center;gap:12px;padding:10px 0;font-size:14px}
+#toast{position:fixed;left:16px;right:16px;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 12px);z-index:4000;background:var(--inv-surface);color:var(--inv-on);border-radius:8px;padding:13px 16px;font-size:14px;box-shadow:var(--elev2);display:none}
+.hint{font-size:12px;color:var(--on-surface-variant);line-height:17px}
+
+/* ===== Touren-Auswahl ===== */
+.seg{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.seg .chip{cursor:pointer}
+.slider{width:100%;margin:2px 0;accent-color:var(--primary);height:24px}
+.gmleg{width:100%;justify-content:flex-start;margin-top:8px;background:var(--surface-container-high);color:var(--on-surface);height:44px}
+.gmleg svg{fill:#4285F4;flex-shrink:0}
+.switchrow{display:flex;align-items:center;gap:12px}
+.switchrow .lab{flex:1;min-width:0}
+.sw{position:relative;width:52px;height:32px;flex-shrink:0}
+.sw input{opacity:0;width:100%;height:100%;margin:0}
+.sw .track{position:absolute;inset:0;border-radius:16px;background:var(--surface-container-highest);border:2px solid var(--outline);transition:.2s;pointer-events:none}
+.sw .knob{position:absolute;left:6px;top:6px;width:16px;height:16px;border-radius:50%;background:var(--outline);transition:.2s;pointer-events:none}
+.sw input:checked+.track{background:var(--primary);border-color:var(--primary)}
+.sw input:checked~.knob{left:26px;width:24px;height:24px;top:2px;background:var(--on-primary)}
+
+/* ===== Proximity-Bar (schneller Einsammel-Zugriff) ===== */
+#proxbar{position:fixed;left:8px;right:8px;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 8px);z-index:1900;background:var(--brand);color:#fff;border-radius:16px;padding:10px 12px;display:none;align-items:center;gap:12px;box-shadow:var(--elev2);animation:rise .2s}
+@keyframes rise{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+#proxbar .coin{width:40px;height:40px;border-radius:20px;background:#fff;color:var(--brand);display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+#proxbar .info{flex:1;min-width:0}
+#proxbar .info b{display:block;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#proxbar .info small{font-size:12px;opacity:.92}
+#proxbar button{border:none;border-radius:20px;height:40px;padding:0 16px;font-weight:700;font-size:14px;background:#fff;color:var(--brand);white-space:nowrap;font-family:inherit}
+.pin.off{opacity:.32}
+
+/* ===== Sparkasse-Marke auf Material-Rundungen (Ecken bleiben rund) ===== */
+.title-l,.title-m{font-family:var(--font-head)}
+.card.hero .btn.filled{background:#fff;color:var(--brand)}
+.card.hero .progressbar{background:rgba(255,255,255,.28)}
+.card.hero .progressbar>div{background:#fff}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.brandlogo{height:30px;width:auto;flex-shrink:0;margin-top:2px}
+.pin.core{box-shadow:0 0 0 2px #1A1110,0 1px 4px rgba(0,0,0,.4)}
+</style>
+</head>
+<body data-tab="home">
+<div id="err"></div>
+<main>
+
+<!-- ===== TAB: ÜBERSICHT ===== -->
+<section class="view" id="view-home">
+  <div class="appbar">
+    <div class="title-l">Sparmania Route</div>
+    <button class="iconbtn" id="syncbtn" aria-label="Synchronisieren"><svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg></button>
+  </div>
+  <div class="scroll">
+    <div class="card hero">
+      <div class="hero-top">
+        <div>
+          <div class="label">Fortschritt</div>
+          <div style="font-size:32px;font-weight:500;margin-top:2px"><span id="h-count">0</span> <span style="font-size:16px;font-weight:400">von <span id="h-total"></span> Münzen</span></div>
+        </div>
+        __LOGO_SVG__
+      </div>
+      <div class="progressbar" style="margin-top:12px"><div id="h-bar"></div></div>
+      <div class="body-m" id="h-next" style="color:inherit;opacity:.85"></div>
+      <div style="margin-top:12px"><button class="btn filled" id="h-navstart"><svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>Navigation starten</button></div>
+    </div>
+    <div class="statrow">
+      <div class="stat"><b id="h-km"></b><span>Rundkurs</span></div>
+      <div class="stat"><b id="h-zeit"></b><span>reine Fahrzeit</span></div>
+      <div class="stat"><b id="h-kern"></b><span>im 3km-Kern</span></div>
+    </div>
+    <div class="card">
+      <div class="title-m">Tour wählen</div>
+      <div class="body-m" style="margin:4px 0 12px">Wähle, wie lange du fahren willst – die Route nimmt so viele Münzen mit, wie in die Zeit passen. „In der Nähe" plant ab deinem GPS-Standort.</div>
+      <div class="seg" id="tour-presets">
+        <button class="chip" data-mode="prefix" data-min="75">☕ Schnellrunde</button>
+        <button class="chip" data-mode="prefix" data-min="180">🚴 Halbtag</button>
+        <button class="chip on" data-mode="prefix" data-min="9999">🏆 Ganztour</button>
+        <button class="chip" data-mode="near" data-min="150">📍 In der Nähe</button>
+      </div>
+      <input type="range" class="slider" id="tour-slider" min="30" max="720" step="15" value="720" aria-label="Zeitbudget">
+      <div class="body-m" id="tour-info" style="margin-top:4px"></div>
+      <div id="tour-legs"></div>
+    </div>
+    <div class="card">
+      <div class="switchrow">
+        <div class="lab">
+          <div class="title-m">Münz-Signal 🪙</div>
+          <div class="hint">Ton &amp; Vibration, sobald du in Reichweite einer Münze bist.</div>
+        </div>
+        <label class="sw"><input type="checkbox" id="soundtgl" checked><span class="track"></span><span class="knob"></span></label>
+      </div>
+    </div>
+    <div class="card" id="synccard">
+      <div class="title-m">Sparmania-Profil</div>
+      <div class="body-m" style="margin:6px 0 10px">Hol dir deinen offiziellen Sammelstand in die App. Vorher einmal im Profil-Tab einloggen.</div>
+      <button class="btn tonal" id="syncbtn2">Fortschritt synchronisieren</button>
+      <div class="hint" id="synctime" style="margin-top:8px"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin:16px 4px 8px;flex-wrap:wrap">
+      <div class="title-m" style="flex:1">Route · <span id="h-listn"></span> Münzen</div>
+      <button class="chip on" id="jumpnext"></button>
+    </div>
+    <div id="rows"></div>
+  </div>
+</section>
+
+<!-- ===== TAB: KARTE ===== -->
+<section class="view" id="view-karte">
+  <div class="mapslot" id="slot-karte">
+    <div id="maprot"><div id="map"></div></div>
+    <div class="map-chips">
+      <button class="chip" id="tglout">Außerhalb (<span id="nout"></span>)</button>
+      <button class="chip" id="tglfut">Bald aktiv (<span id="nfut"></span>)</button>
+    </div>
+    <button class="fab" id="gpsfab" aria-label="Mein Standort"><svg viewBox="0 0 24 24"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg></button>
+  </div>
+</section>
+
+<!-- ===== TAB: NAVIGATION ===== -->
+<section class="view" id="view-nav">
+  <div class="mapslot" id="slot-nav">
+    <div id="navbanner">
+      <svg id="nb-icon" viewBox="0 0 24 24"><path d="M12 4l-8 8h5v8h6v-8h5z"/></svg>
+      <div><div class="d" id="nb-dist"></div><div class="s" id="nb-text"></div></div>
+    </div>
+    <button id="compass" aria-label="Kartenausrichtung">N</button>
+    <button class="btn filled recenter" id="recenter">Zentrieren</button>
+    <div id="navcard">
+      <div class="head">
+        <div class="badge" id="nc-badge"></div>
+        <div class="t"><b id="nc-title"></b><small id="nc-meta"></small></div>
+      </div>
+      <div class="actions" id="nc-actions"></div>
+    </div>
+    <div id="navstart">
+      <div class="title-l">Coin-Navigation</div>
+      <div class="body-m" style="max-width:280px">Führt dich wie ein Navi per Fahrradroute von Münze zu Münze. GPS erforderlich.</div>
+      <button class="btn filled" id="navgo" style="height:48px;padding:0 28px">Navigation starten</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TAB: PROFIL ===== -->
+<section class="view" id="view-profil">
+  <div class="appbar"><div class="title-l">Profil</div></div>
+  <div class="scroll">
+    <div class="card">
+      <div class="title-m">Sparmania-Konto</div>
+      <div class="body-m" style="margin:6px 0 12px">Einsammeln läuft offiziell über sparmania-200.de (QR-Code an der Münze scannen). Logg dich hier einmal ein – die Anmeldung bleibt in der App gespeichert, danach funktioniert auch die Synchronisation.</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn filled" data-official="https://sparmania-200.de/profil">Profil öffnen &amp; einloggen</button>
+        <button class="btn tonal" data-official="https://sparmania-200.de/schatzkarte">Offizielle Schatzkarte</button>
+        <button class="btn text" id="syncbtn3">Fortschritt synchronisieren</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="title-m">So sammelst du</div>
+      <div class="body-m" style="margin-top:6px">1. Mit der Navigation zur Münze radeln.<br>2. Am Ziel „Einsammeln" antippen – die offizielle Seite öffnet sich in der App.<br>3. QR-Code vor Ort scannen, Münze gehört dir.<br>4. Zurück-Taste bringt dich zur Navigation.</div>
+    </div>
+    <div class="card" style="background:transparent;padding:12px 4px">
+      <div class="hint" style="text-align:center">Inoffizielles, privates Projekt – <b>nicht</b> von der Sparkasse Leipzig, keine offizielle Verbindung oder Unterstützung. Münzen werden ausschließlich über die offizielle Seite eingesammelt.</div>
+    </div>
+    <div class="hint" id="version" style="text-align:center;margin-top:6px"></div>
+  </div>
+</section>
+
+</main>
+
+<nav id="bottomnav">
+  <button data-tab="home" class="on"><span class="ind"><svg viewBox="0 0 24 24"><path d="M12 3l8 7v11h-5.5v-6h-5v6H4V10z"/></svg></span>Übersicht</button>
+  <button data-tab="karte"><span class="ind"><svg viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg></span>Karte</button>
+  <button data-tab="nav"><span class="ind"><svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg></span>Navigation</button>
+  <button data-tab="profil"><span class="ind"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span>Profil</button>
+</nav>
+
+<div id="scrim"></div>
+<div id="sheet">
+  <div class="handle"></div>
+  <div class="title-m" id="sh-title" style="font-size:18px"></div>
+  <div class="meta" id="sh-meta"></div>
+  <label class="checkrow"><input type="checkbox" id="sh-check"> Eingesammelt</label>
+  <div class="btns">
+    <button class="btn filled" id="sh-navhere"><svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>Route hier starten</button>
+    <button class="btn tonal" id="sh-showmap">Auf Karte zeigen</button>
+    <button class="btn text" id="sh-gmaps">In Google Maps öffnen</button>
+  </div>
+</div>
+<div id="proxbar">
+  <div class="coin" id="px-num"></div>
+  <div class="info"><b id="px-title"></b><small id="px-dist"></small></div>
+  <button id="px-collect">Einsammeln</button>
+</div>
+<div id="toast"></div>
+
+<script>
+__LEAFLET_JS__
+</script>
+<script>
+"use strict";
+var DATA = __DATA__;
+var OSRM = "https://routing.openstreetmap.de/routed-bike";
+var KEY = "sparmania-progress-v2";
+var DEMO = /[?&]demo=1/.test(location.search);
+
+function $(id){ return document.getElementById(id); }
+function showErr(m){ var e=$("err"); e.textContent="Fehler: "+m; e.style.display="block"; }
+window.addEventListener("error", function(e){ showErr(e.message||"Script error"); });
+window.addEventListener("unhandledrejection", function(e){ showErr(String(e.reason)); });
+var toastT=null;
+function toast(m){ var t=$("toast"); t.textContent=m; t.style.display="block"; clearTimeout(toastT); toastT=setTimeout(function(){ t.style.display="none"; },3500); }
+function fmt(x){ return String(x).replace(".",","); }
+function havM(a,b){ var R=6371000,r=Math.PI/180,dla=(b[0]-a[0])*r,dlo=(b[1]-a[1])*r,h=Math.sin(dla/2)*Math.sin(dla/2)+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dlo/2)*Math.sin(dlo/2); return 2*R*Math.asin(Math.sqrt(h)); }
+function distTxt(m){ return m>=1000 ? fmt((m/1000).toFixed(1))+" km" : Math.round(m)+" m"; }
+var ESCM={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"};
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(ch){ return ESCM[ch]; }); }
+
+/* ===== Fortschritt ===== */
+function loadProgress(){
+  try{ var v=localStorage.getItem(KEY); if(v) return JSON.parse(v); }catch(e){}
+  try{ var m=document.cookie.match(new RegExp(KEY+"=([^;]+)")); if(m) return JSON.parse(decodeURIComponent(m[1])); }catch(e){}
+  return [];
+}
+var collected={};
+loadProgress().forEach(function(id){ collected[id]=true; });
+function saveProgress(){
+  var ids=Object.keys(collected).filter(function(k){return collected[k];}).map(Number);
+  try{ localStorage.setItem(KEY, JSON.stringify(ids)); }catch(e){}
+  try{ document.cookie=KEY+"="+encodeURIComponent(JSON.stringify(ids))+";max-age=31536000;path=/"; }catch(e){}
+}
+var byId={};
+DATA.route.forEach(function(c){ byId[c.id]=c; });
+var START=[DATA.start.lat,DATA.start.lon];
+var MINPKM=(DATA.totalKm>0)?(DATA.totalMin/DATA.totalKm):3.9;   // min pro km
+var ROAD=1.35;                                                  // Luftlinie -> Straße
+/* Navigations-Zustand — muss vor der Marker-Erzeugung existieren (coinIcon liest target) */
+var navState={active:false,target:null,route:null,cum:null,stepIdx:0,offSince:0,fetching:false,arrived:false,navFollow:true};
+
+/* ===== Touren ===== */
+var activeTour={name:"Ganztour",coins:DATA.route.slice()};
+var inTour={};
+function recomputeInTour(){ inTour={}; activeTour.coins.forEach(function(c){ inTour[c.id]=true; }); }
+recomputeInTour();
+var navSeq=activeTour.coins;                                     // Reihenfolge, der die Navigation folgt
+function firstOpen(list,fromIdx){
+  var n=list.length;
+  for(var k=0;k<n;k++){ var c=list[(fromIdx+k)%n]; if(!collected[c.id]) return c; }
+  return null;
+}
+function idxInList(list,coin){ for(var i=0;i<list.length;i++) if(list[i].id===coin.id) return i; return -1; }
+function nextOpenAfter(list,coin){
+  var i=idxInList(list,coin),n=list.length;
+  for(var k=1;k<=n;k++){ var c=list[((i<0?-1:i)+k+n)%n]; if(c.id!==coin.id&&!collected[c.id]) return c; }
+  return null;
+}
+function rotateToFirst(list,coin){ var i=idxInList(list,coin); return i<=0?list.slice():list.slice(i).concat(list.slice(0,i)); }
+function openInSeq(){ var n=0; for(var i=0;i<navSeq.length;i++) if(!collected[navSeq[i].id]) n++; return n; }
+
+/* ===== Karte ===== */
+var map=L.map("map",{zoomControl:false}).setView([DATA.start.lat,DATA.start.lon],13);
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+L.control.scale({imperial:false}).addTo(map);
+if(DATA.geometry && DATA.geometry.length>2){
+  L.polyline(DATA.geometry,{color:"#1A1110",weight:3,opacity:.45}).addTo(map);
+}
+L.marker([DATA.start.lat,DATA.start.lon],{icon:L.divIcon({className:"",html:'<div class="pin start">⌂</div>',iconSize:[34,34],iconAnchor:[17,17]}),zIndexOffset:900}).addTo(map)
+ .bindPopup("<b>"+esc(DATA.start.title)+"</b>");
+
+var nextCoin=null, markerById={}, rowById={};
+function calcNext(){ nextCoin=firstOpen(activeTour.coins,0); }
+calcNext();
+function coinIcon(c){
+  var done=collected[c.id];
+  var isTarget=navState.target&&navState.target.id===c.id;
+  var off=!inTour[c.id]&&!isTarget&&!(nextCoin&&nextCoin.id===c.id);
+  var cls="pin"+(done?" done":(c.core?" core":""))+((nextCoin&&nextCoin.id===c.id&&!done)?" next":"")+(isTarget?" target":"")+(off?" off":"");
+  return L.divIcon({className:"",html:'<div class="'+cls+'">'+(done?"✓":c.num)+"</div>",iconSize:[28,28],iconAnchor:[14,14]});
+}
+function refreshAllMarkers(){ DATA.route.forEach(refreshCoin); }
+function refreshCoin(c){
+  if(markerById[c.id]) markerById[c.id].setIcon(coinIcon(c));
+  var r=rowById[c.id];
+  if(r){ r.classList.toggle("done",!!collected[c.id]); r.querySelector("input").checked=!!collected[c.id]; }
+}
+
+/* ===== Coin-Detail-Sheet ===== */
+var sheetCoin=null;
+function openSheet(c){
+  sheetCoin=c;
+  $("sh-title").textContent=c.num+". "+c.title;
+  $("sh-meta").innerHTML='<span class="chip'+(c.core?" on":"")+'">'+(c.core?"Kern-Zone":"Route")+'</span>'+
+    '<span class="chip">km '+fmt(c.kmFromStart)+' ab Start</span><span class="chip">'+fmt(c.kmHome)+' km heim</span>';
+  $("sh-check").checked=!!collected[c.id];
+  $("scrim").style.display="block"; $("sheet").classList.add("open");
+}
+function closeSheet(){ $("scrim").style.display="none"; $("sheet").classList.remove("open"); }
+$("scrim").addEventListener("click",closeSheet);
+$("sh-check").addEventListener("change",function(){ if(sheetCoin) setCollected(sheetCoin.id,this.checked); });
+$("sh-navhere").addEventListener("click",function(){ if(sheetCoin){ closeSheet(); startNavTo(sheetCoin); } });
+$("sh-showmap").addEventListener("click",function(){ if(sheetCoin){ closeSheet(); switchTab("karte"); map.setView([sheetCoin.lat,sheetCoin.lon],16); } });
+$("sh-gmaps").addEventListener("click",function(){ if(sheetCoin) openExtern("https://www.google.com/maps/dir/?api=1&destination="+sheetCoin.lat+","+sheetCoin.lon+"&travelmode=bicycling"); });
+function openExtern(u){
+  if(window.AndroidApp&&AndroidApp.openExternal){ AndroidApp.openExternal(u); }
+  else window.open(u,"_blank");
+}
+
+DATA.route.forEach(function(c){
+  var m=L.marker([c.lat,c.lon],{icon:coinIcon(c)}).addTo(map);
+  m.on("click",function(){ openSheet(c); });
+  markerById[c.id]=m;
+});
+
+/* Außerhalb / Bald aktiv */
+var outLayer=L.layerGroup(), futLayer=L.layerGroup();
+DATA.outsideActive.forEach(function(c){
+  L.marker([c.lat,c.lon],{icon:L.divIcon({className:"",html:'<div class="pin out">●</div>',iconSize:[22,22],iconAnchor:[11,11]})})
+   .bindPopup("<b>"+esc(c.title)+"</b><br><small>"+esc(c.place)+" · außerhalb der Route</small>").addTo(outLayer);
+});
+DATA.future.forEach(function(c){
+  var d=c.activeFrom?new Date(c.activeFrom).toLocaleDateString("de-DE"):"";
+  L.marker([c.lat,c.lon],{icon:L.divIcon({className:"",html:'<div class="pin fut">◷</div>',iconSize:[22,22],iconAnchor:[11,11]})})
+   .bindPopup("<b>"+esc(c.title)+"</b><br><small>"+esc(c.place)+" · aktiv ab "+d+"</small>").addTo(futLayer);
+});
+$("nout").textContent=DATA.outsideActive.length;
+$("nfut").textContent=DATA.future.length;
+$("tglout").addEventListener("click",function(){ this.classList.toggle("on"); this.classList.contains("on")?outLayer.addTo(map):map.removeLayer(outLayer); });
+$("tglfut").addEventListener("click",function(){ this.classList.toggle("on"); this.classList.contains("on")?futLayer.addTo(map):map.removeLayer(futLayer); });
+
+/* ===== Übersicht: Coin-Liste der aktiven Tour ===== */
+var SECT=25;
+function rebuildList(){
+  var rowsEl=$("rows"); rowsEl.innerHTML=""; rowById={};
+  var tc=activeTour.coins, card=null;
+  tc.forEach(function(c,i){
+    if(i%SECT===0){
+      var end=Math.min(i+SECT,tc.length);
+      var h=document.createElement("div"); h.className="sect";
+      h.textContent="Münzen "+(i+1)+"–"+end+(activeTour.near?" · nach Nähe sortiert":"");
+      rowsEl.appendChild(h);
+      card=document.createElement("div"); card.className="listcard"; rowsEl.appendChild(card);
+    }
+    var r=document.createElement("div");
+    r.className="row"+(c.core?" core":"")+(collected[c.id]?" done":"");
+    r.innerHTML='<span class="badge">'+c.num+'</span><div class="t"><b></b><small></small></div>'+
+      '<div class="km">'+fmt(c.kmFromStart)+' km<br>heim '+fmt(c.kmHome)+'</div><input type="checkbox"'+(collected[c.id]?" checked":"")+'>';
+    r.querySelector("b").textContent=c.title;
+    r.querySelector("small").textContent=c.place;
+    r.querySelector("input").addEventListener("click",function(ev){ ev.stopPropagation(); });
+    r.querySelector("input").addEventListener("change",function(){ setCollected(c.id,this.checked); });
+    r.addEventListener("click",function(ev){ if(ev.target.tagName!=="INPUT") openSheet(c); });
+    card.appendChild(r); rowById[c.id]=r;
+  });
+  $("h-listn").textContent=tc.length;
+}
+$("jumpnext").addEventListener("click",function(){
+  if(!nextCoin||!rowById[nextCoin.id]) return;
+  var r=rowById[nextCoin.id];
+  r.scrollIntoView({behavior:"smooth",block:"center"});
+  r.classList.remove("flash"); void r.offsetWidth; r.classList.add("flash");
+});
+$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.4";
+$("h-navstart").addEventListener("click",function(){ unlockAudio(); startNavTo(nextCoin||activeTour.coins[0]); });
+
+/* ===== Touren-Engine (Auswahl nach Zeit / Größe / Nähe) ===== */
+var tourMode="prefix", tourBudget=100000;   // Start = Ganztour (jenseits des Sliders)
+function prefixFit(minBudget){
+  // größtes Prefix, dessen Rundkurs-Zeit ins Budget passt.
+  // Kein break: kmFromStart+kmHome ist nicht streng monoton (Heimweg schwankt),
+  // sonst würden nach einem Ausreißer wieder passende Münzen übersprungen.
+  var best=1;
+  for(var k=1;k<=DATA.route.length;k++){
+    var c=DATA.route[k-1];
+    if((c.kmFromStart+c.kmHome)*MINPKM<=minBudget) best=k;
+  }
+  return best;
+}
+function nearTour(pos,minBudget){
+  var pool=DATA.route.slice(), seq=[], cur=pos, cumKm=0;
+  while(pool.length){
+    var bi=0,bd=Infinity;
+    for(var i=0;i<pool.length;i++){ var d=havM(cur,[pool[i].lat,pool[i].lon]); if(d<bd){ bd=d; bi=i; } }
+    var nc=pool[bi];
+    var addKm=havM(cur,[nc.lat,nc.lon])/1000*ROAD;
+    var homeKm=havM([nc.lat,nc.lon],START)/1000*ROAD;
+    if(seq.length&&(cumKm+addKm+homeKm)*MINPKM>minBudget) break;
+    cumKm+=addKm; seq.push(nc); cur=[nc.lat,nc.lon]; pool.splice(bi,1);
+  }
+  return seq;
+}
+function tourKm(){
+  var coins=activeTour.coins;
+  if(!coins.length) return 0;
+  if(activeTour.near){
+    var km=0,cur=START;
+    for(var i=0;i<coins.length;i++){ km+=havM(cur,[coins[i].lat,coins[i].lon])/1000*ROAD; cur=[coins[i].lat,coins[i].lon]; }
+    return km+havM(cur,START)/1000*ROAD;
+  }
+  var last=coins[coins.length-1];
+  return last.kmFromStart+last.kmHome;
+}
+function rebuildTour(){
+  var coins,near=false;
+  if(tourMode==="near"){
+    if(lastPos){ coins=nearTour(lastPos,tourBudget); near=true; }
+    else { toast('Für „In der Nähe" zuerst GPS aktivieren (Karte: ◎-Button)'); coins=DATA.route.slice(0,prefixFit(tourBudget)); }
+  } else {
+    coins=DATA.route.slice(0,prefixFit(tourBudget));
+  }
+  if(!coins.length) coins=[DATA.route[0]];
+  var nm=near?"In der Nähe":(tourBudget>=DATA.totalMin?"Ganztour":(tourBudget<=90?"Schnellrunde":"Tour"));
+  activeTour={name:nm,coins:coins,near:near};
+  recomputeInTour();
+  // navSeq NICHT anfassen, solange navigiert wird – sonst verliert die laufende
+  // Navigation ihr Ziel, wenn man mitten in der Fahrt eine andere Tour wählt
+  if(!navState.active) navSeq=activeTour.coins;
+  calcNext(); rebuildList(); refreshAllMarkers(); updateTourInfo(); updateHomeStats(); updateHome();
+}
+function updateHomeStats(){
+  var km=tourKm(), min=Math.round(km*MINPKM);
+  $("h-km").textContent=fmt(km.toFixed(0))+" km";
+  $("h-zeit").textContent="~"+Math.floor(min/60)+":"+String(min%60).padStart(2,"0")+" h";
+  $("h-kern").textContent=activeTour.coins.filter(function(c){return c.core;}).length;
+}
+function updateTourInfo(){
+  var km=tourKm(), min=Math.round(km*MINPKM);
+  $("tour-info").textContent=activeTour.name+": "+activeTour.coins.length+" Münzen · ~"+fmt(km.toFixed(0))+
+    " km · ~"+Math.floor(min/60)+":"+String(min%60).padStart(2,"0")+" h (inkl. Heimweg)";
+  renderLegs();
+}
+
+/* ===== Google-Maps-Export mit Zwischenstopps (max. 9 pro Etappe) ===== */
+var GM_WP=9;   // Google Maps: bis zu 9 Wegpunkte pro Link in der App
+function gmapsLegs(coins){
+  var pts=[{lat:DATA.start.lat,lon:DATA.start.lon}].concat(coins);
+  var legs=[],i=0,step=GM_WP+1;                 // Origin + 9 Wegpunkte + Ziel = 11 Punkte
+  while(i<pts.length-1){ legs.push(pts.slice(i,i+step+1)); i+=step; }
+  return legs;
+}
+function gmapsUrl(slice){
+  var o=slice[0], d=slice[slice.length-1], wp=[];
+  for(var i=1;i<slice.length-1;i++) wp.push(slice[i].lat+","+slice[i].lon);
+  var u="https://www.google.com/maps/dir/?api=1&origin="+o.lat+","+o.lon+
+        "&destination="+d.lat+","+d.lon+"&travelmode=bicycling";
+  if(wp.length) u+="&waypoints="+encodeURIComponent(wp.join("|"));
+  return u;
+}
+function renderLegs(){
+  var legs=gmapsLegs(activeTour.coins), box=$("tour-legs"); box.innerHTML="";
+  legs.forEach(function(slice,i){
+    var b=document.createElement("button"); b.className="btn gmleg";
+    b.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>';
+    var span=document.createElement("span"); span.style.marginLeft="6px";
+    span.textContent=(legs.length>1?("Etappe "+(i+1)+"/"+legs.length):"In Google Maps öffnen")+" · "+(slice.length-1)+" Stopps";
+    b.appendChild(span);
+    b.addEventListener("click",function(){ openExtern(gmapsUrl(slice)); });
+    box.appendChild(b);
+  });
+}
+(function(){
+  var chips=$("tour-presets").querySelectorAll("button");
+  for(var i=0;i<chips.length;i++) chips[i].addEventListener("click",function(){
+    for(var j=0;j<chips.length;j++) chips[j].classList.remove("on");
+    this.classList.add("on");
+    tourMode=this.getAttribute("data-mode");
+    tourBudget=+this.getAttribute("data-min");
+    $("tour-slider").value=Math.min(720,tourBudget);
+    rebuildTour();
+  });
+  $("tour-slider").addEventListener("input",function(){
+    tourBudget=+this.value;
+    // Slider = frei gewähltes Zeitbudget: Preset-Hervorhebung lösen (außer „In der Nähe")
+    if(tourMode!=="near"){ var cs=$("tour-presets").querySelectorAll("button"); for(var j=0;j<cs.length;j++) cs[j].classList.remove("on"); }
+    rebuildTour();
+  });
+})();
+
+function updateHome(){
+  var tc=activeTour.coins;
+  var n=tc.filter(function(c){return collected[c.id];}).length;
+  var g=DATA.route.filter(function(c){return collected[c.id];}).length;
+  $("h-count").textContent=n;
+  $("h-total").textContent=tc.length;
+  $("h-bar").style.width=(tc.length?100*n/tc.length:0)+"%";
+  $("h-next").textContent=(nextCoin?("Nächste: #"+nextCoin.num+" "+nextCoin.title):"Tour komplett 🎉")+" · gesamt "+g+"/"+DATA.route.length;
+  $("jumpnext").textContent=nextCoin?("↓ nächste offene: #"+nextCoin.num):"alles ✓";
+  var ts=null;
+  try{ ts=localStorage.getItem("sparmania-sync"); }catch(e){}
+  $("synctime").textContent=ts?("Zuletzt synchronisiert: "+new Date(Number(ts)).toLocaleString("de-DE")):"Noch nie synchronisiert.";
+}
+
+function setCollected(id,val){
+  var oldNext=nextCoin;
+  if(val) collected[id]=true; else delete collected[id];
+  saveProgress(); calcNext();
+  refreshCoin(byId[id]);
+  if(oldNext) refreshCoin(oldNext);
+  if(nextCoin) refreshCoin(nextCoin);
+  updateHome(); updateHomeStats();
+  if(lastPos) checkProximity();
+  if(navState.target&&navState.target.id===id&&val) advanceTarget();
+}
+
+/* ===== Tabs ===== */
+function switchTab(tab){
+  document.body.setAttribute("data-tab",tab);
+  var btns=document.querySelectorAll("#bottomnav button");
+  for(var i=0;i<btns.length;i++) btns[i].classList.toggle("on",btns[i].getAttribute("data-tab")===tab);
+  var mapEl=$("maprot");
+  if(tab==="karte"&&mapEl.parentNode!==$("slot-karte")) $("slot-karte").insertBefore(mapEl,$("slot-karte").firstChild);
+  if(tab==="nav"&&mapEl.parentNode!==$("slot-nav")) $("slot-nav").insertBefore(mapEl,$("slot-nav").firstChild);
+  if(tab!=="nav") applyRotMode(false);
+  if(tab==="karte"||tab==="nav") setTimeout(function(){ map.invalidateSize(); },60);
+  if(lastPos) checkProximity(); else hideProx();
+}
+(function(){
+  var btns=document.querySelectorAll("#bottomnav button");
+  for(var i=0;i<btns.length;i++) btns[i].addEventListener("click",function(){ switchTab(this.getAttribute("data-tab")); });
+})();
+
+/* ===== GPS ===== */
+var watchId=null,lastPos=null,posMarker=null,accCircle=null,follow=false,demoTimer=null;
+var prevFix=null,bearingSm=null,headingUp=true,mapRot=0,rotCont=0;
+function bearing(a,b){
+  var r=Math.PI/180,la1=a[0]*r,la2=b[0]*r,dlo=(b[1]-a[1])*r;
+  var y=Math.sin(dlo)*Math.cos(la2),x=Math.cos(la1)*Math.sin(la2)-Math.sin(la1)*Math.cos(la2)*Math.cos(dlo);
+  return (Math.atan2(y,x)*180/Math.PI+360)%360;
+}
+function shortDelta(a,b){ return ((b-a+540)%360)-180; }
+function destPoint(p,brg,dm){
+  var R=6371000,r=Math.PI/180,la1=p[0]*r,lo1=p[1]*r,b=brg*r,dr=dm/R;
+  var la2=Math.asin(Math.sin(la1)*Math.cos(dr)+Math.cos(la1)*Math.sin(dr)*Math.cos(b));
+  var lo2=lo1+Math.atan2(Math.sin(b)*Math.sin(dr)*Math.cos(la1),Math.cos(dr)-Math.sin(la1)*Math.sin(la2));
+  return [la2/r,lo2/r];
+}
+function setMapRot(deg){
+  mapRot=deg;
+  var el=$("maprot");
+  el.style.setProperty("--maprot",deg+"deg");
+  el.style.setProperty("--counterrot",(-deg)+"deg");
+  $("compass").style.transform="rotate("+deg+"deg)";
+}
+function applyRotMode(on){
+  var el=$("maprot");
+  if(on!==el.classList.contains("rot")){
+    el.classList.toggle("rot",on);
+    if(!on){ rotCont=0; setMapRot(0); }
+    setTimeout(function(){ map.invalidateSize(); },60);
+  }
+}
+function rotateTo(desired){
+  // kontinuierlicher Winkel: am Nord-Durchgang kürzeste Drehung statt 350°-Vollkreis
+  var cur=((rotCont%360)+360)%360, tgt=((desired%360)+360)%360;
+  rotCont+=shortDelta(cur,tgt);
+  setMapRot(rotCont);
+}
+function updateBearing(p){
+  var b=null;
+  if(p.coords.heading!=null&&!isNaN(p.coords.heading)&&p.coords.heading>=0) b=p.coords.heading;
+  else if(prevFix&&havM(prevFix,lastPos)>3) b=bearing(prevFix,lastPos);
+  if(!prevFix||havM(prevFix,lastPos)>3) prevFix=lastPos;
+  if(b===null) return;
+  bearingSm=bearingSm===null?b:(bearingSm+shortDelta(bearingSm,b)*0.35+360)%360;
+  if(posMarker&&posMarker.getElement()){
+    var el=posMarker.getElement();
+    el.style.setProperty("--gpsrot",bearingSm+"deg");
+    el.style.setProperty("--gpsshow","block");
+  }
+}
+function ensureGps(){
+  if(watchId!==null||demoTimer) return;
+  if(DEMO){
+    if(!DATA.geometry||DATA.geometry.length<2){ toast("Demo-Modus braucht Routen-Geometrie"); return; }
+    $("gpsfab").classList.add("on");
+    // realistische Fahrt: 8 m/s entlang der Geometrie interpoliert statt Punkt-Sprünge
+    var dcum=[0];
+    for(var gi=1;gi<DATA.geometry.length;gi++) dcum.push(dcum[gi-1]+havM(DATA.geometry[gi-1],DATA.geometry[gi]));
+    var dpos=0;
+    demoTimer=setInterval(function(){
+      dpos=(dpos+8)%dcum[dcum.length-1];
+      var k=1; while(k<dcum.length&&dcum[k]<dpos) k++;
+      var t=(dpos-dcum[k-1])/Math.max(1e-9,dcum[k]-dcum[k-1]);
+      var a=DATA.geometry[k-1],b=DATA.geometry[k];
+      onPos({coords:{latitude:a[0]+(b[0]-a[0])*t,longitude:a[1]+(b[1]-a[1])*t,accuracy:8,heading:null}});
+    },1000);
+    toast("Demo-Modus: simulierte Fahrt"); return;
+  }
+  if(!navigator.geolocation){ showErr("GPS wird nicht unterstützt"); return; }
+  watchId=navigator.geolocation.watchPosition(onPos,function(e){ toast("GPS: "+e.message); },{enableHighAccuracy:true,maximumAge:3000,timeout:20000});
+  $("gpsfab").classList.add("on");
+}
+function stopGps(){
+  if(watchId!==null){ navigator.geolocation.clearWatch(watchId); watchId=null; }
+  if(demoTimer){ clearInterval(demoTimer); demoTimer=null; }
+  if(posMarker){ map.removeLayer(posMarker); map.removeLayer(accCircle); posMarker=null; accCircle=null; }
+  lastPos=null; $("gpsfab").classList.remove("on");
+}
+function onPos(p){
+  lastPos=[p.coords.latitude,p.coords.longitude];
+  if(!posMarker){
+    posMarker=L.marker(lastPos,{icon:L.divIcon({className:"",html:'<div class="gpswrap"><div class="gpsarrow"></div><div class="gpsdot"></div></div>',iconSize:[18,18],iconAnchor:[9,9]}),zIndexOffset:1000}).addTo(map);
+    accCircle=L.circle(lastPos,{radius:p.coords.accuracy||30,color:"#1a73e8",weight:1,fillOpacity:.08}).addTo(map);
+    if(document.body.getAttribute("data-tab")==="karte") map.setView(lastPos,15);
+  }else{
+    posMarker.setLatLng(lastPos); accCircle.setLatLng(lastPos); accCircle.setRadius(p.coords.accuracy||30);
+  }
+  updateBearing(p);
+  checkProximity();
+  if(navState.active) navTick();
+  else if(follow) map.panTo(lastPos);
+}
+$("gpsfab").addEventListener("click",function(){
+  if(watchId!==null||demoTimer){
+    if(navState.active){ toast("GPS wird von der Navigation genutzt – dort „Beenden“ tippen"); return; }
+    follow=false; stopGps(); return;
+  }
+  follow=true; ensureGps();
+});
+
+/* ===== Münz-Signal (Sound + Vibration) ===== */
+var audioCtx=null, soundOn=true;
+try{ soundOn=localStorage.getItem("sparmania-sound")!=="0"; }catch(e){}
+function unlockAudio(){
+  try{
+    if(!audioCtx&&(window.AudioContext||window.webkitAudioContext)) audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx&&audioCtx.state==="suspended") audioCtx.resume();
+  }catch(e){}
+}
+function coinChime(){
+  if(!soundOn) return;
+  unlockAudio();
+  if(audioCtx){
+    var t0=audioCtx.currentTime;
+    var note=function(freq,start,dur){
+      var o=audioCtx.createOscillator(), g=audioCtx.createGain();
+      o.type="square"; o.frequency.value=freq;
+      g.gain.setValueAtTime(0.0001,t0+start);
+      g.gain.exponentialRampToValueAtTime(0.22,t0+start+0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001,t0+start+dur);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t0+start); o.stop(t0+start+dur+0.02);
+    };
+    note(987.77,0,0.09);     // B5
+    note(1318.51,0.08,0.30); // E6  → klassischer Münz-Klang
+  }
+  if(navigator.vibrate){ try{ navigator.vibrate([90,40,90]); }catch(e){} }
+}
+document.addEventListener("pointerdown",function once(){ unlockAudio(); document.removeEventListener("pointerdown",once); });
+(function(){
+  var t=$("soundtgl"); t.checked=soundOn;
+  t.addEventListener("change",function(){
+    soundOn=this.checked;
+    try{ localStorage.setItem("sparmania-sound",soundOn?"1":"0"); }catch(e){}
+    if(soundOn){ coinChime(); toast("Münz-Signal an"); } else toast("Münz-Signal aus");
+  });
+})();
+
+/* ===== Proximity: Reichweite einer Münze ===== */
+var PROX=70, chimed={}, proxCoin=null;
+function checkProximity(){
+  if(!lastPos){ hideProx(); return; }
+  var nearC=null,nd=Infinity;
+  for(var i=0;i<DATA.route.length;i++){
+    var c=DATA.route[i]; if(collected[c.id]) continue;
+    var d=havM(lastPos,[c.lat,c.lon]);
+    if(d<PROX){ if(!chimed[c.id]){ chimed[c.id]=true; onEnterRange(c); } }
+    else if(d>PROX+50){ chimed[c.id]=false; }
+    if(d<nd){ nd=d; nearC=c; }
+  }
+  if(nearC&&nd<PROX) showProx(nearC,nd); else hideProx();
+}
+function onEnterRange(c){ coinChime(); toast("🪙 Münze in Reichweite: "+c.title); }
+function showProx(c,d){
+  if(document.body.getAttribute("data-tab")==="nav"){ hideProx(); return; }
+  proxCoin=c;
+  $("px-num").textContent=c.num;
+  $("px-title").textContent=c.title;
+  $("px-dist").textContent=Math.round(d)+" m · zum Sammeln antippen";
+  $("proxbar").style.display="flex";
+}
+function hideProx(){ $("proxbar").style.display="none"; proxCoin=null; }
+$("px-collect").addEventListener("click",function(){ openOfficial("https://sparmania-200.de/schatzkarte"); });
+
+/* ===== Wake Lock: Display bleibt während der Navigation an (iOS 16.4+/Android) ===== */
+var wakeLock=null;
+function acquireWake(){
+  if(!("wakeLock" in navigator)) return;
+  navigator.wakeLock.request("screen").then(function(w){ wakeLock=w; }).catch(function(){});
+}
+function releaseWake(){ if(wakeLock){ try{ wakeLock.release(); }catch(e){} wakeLock=null; } }
+document.addEventListener("visibilitychange",function(){
+  if(document.visibilityState==="visible"&&navState.active) acquireWake();
+});
+
+/* ===== Navigation ===== */
+var navLine=null,navFallback=null;
+
+function startNavTo(coin){
+  unlockAudio(); acquireWake();
+  // Navigations-Reihenfolge: innerhalb der aktiven Tour ab diesem Coin, sonst
+  // ganze Route ab diesem Coin (z.B. „Route hier starten" auf einer Tour-fremden Münze)
+  navSeq = inTour[coin.id] ? rotateToFirst(activeTour.coins,coin) : rotateToFirst(DATA.route,coin);
+  navState.target=coin; navState.route=null; navState.arrived=false; navState.active=true; navState.navFollow=true;
+  try{ localStorage.setItem("sparmania-target",String(coin.id)); }catch(e){}
+  switchTab("nav");
+  $("navstart").style.display="none";
+  ensureGps();
+  refreshAllMarkers();
+  updateNavCard();
+  if(lastPos) fetchNavRoute(); else toast("Warte auf GPS …");
+}
+function endNav(){
+  navState.active=false; navState.target=null; clearNavLine(); releaseWake();
+  applyRotMode(false);
+  $("navstart").style.display="flex"; $("navbanner").style.display="none";
+  $("recenter").style.display="none";
+  DATA.route.forEach(refreshCoin);
+  updateNavCard();
+}
+function clearNavLine(){
+  if(navLine){ map.removeLayer(navLine); navLine=null; }
+  if(navFallback){ map.removeLayer(navFallback); navFallback=null; }
+}
+function cumLens(coords){
+  var cum=[0];
+  for(var i=1;i<coords.length;i++) cum.push(cum[i-1]+havM(coords[i-1],coords[i]));
+  return cum;
+}
+function fetchNavRoute(){
+  if(!lastPos||!navState.target||navState.fetching) return;
+  navState.fetching=true;
+  var t=navState.target;
+  var url=OSRM+"/route/v1/bike/"+lastPos[1].toFixed(6)+","+lastPos[0].toFixed(6)+";"+t.lon+","+t.lat+"?overview=full&geometries=geojson&steps=true";
+  fetch(url).then(function(r){ return r.json(); }).then(function(d){
+    navState.fetching=false;
+    if(d.code!=="Ok"||!d.routes||!d.routes.length) throw new Error(d.code||"leer");
+    var r0=d.routes[0];
+    navState.route={coords:r0.geometry.coordinates.map(function(c){ return [c[1],c[0]]; }),dist:r0.distance,dur:r0.duration,steps:r0.legs[0].steps};
+    navState.cum=cumLens(navState.route.coords);
+    navState.stepIdx=navState.route.steps.length>1?1:0;
+    navState.offSince=0;
+    clearNavLine();
+    navLine=L.polyline(navState.route.coords,{color:"#1a73e8",weight:6,opacity:.85}).addTo(map);
+    navTick();
+  }).catch(function(){
+    navState.fetching=false; navState.route=null;
+    clearNavLine();
+    if(lastPos&&navState.target){
+      navFallback=L.polyline([lastPos,[navState.target.lat,navState.target.lon]],{color:"#1a73e8",weight:4,dashArray:"8 8",opacity:.7}).addTo(map);
+      toast("Live-Routing nicht erreichbar – Luftlinie als Ersatz");
+      updateNavBanner(null);
+    }
+  });
+}
+var STEPTXT={left:"links",right:"rechts","slight left":"halb links","slight right":"halb rechts","sharp left":"scharf links","sharp right":"scharf rechts",straight:"geradeaus",uturn:"wenden"};
+var STEPROT={left:-90,right:90,"slight left":-45,"slight right":45,"sharp left":-135,"sharp right":135,straight:0,uturn:180};
+function stepText(s){
+  var n=s.name?(" auf "+s.name):"";
+  var m=s.maneuver, dir=STEPTXT[m.modifier]||"";
+  if(m.type==="arrive") return "Ziel: "+(navState.target?navState.target.title:"Münze");
+  if(m.type==="depart") return "Los geht's"+n;
+  if(m.type==="roundabout"||m.type==="rotary") return "Kreisverkehr, Ausfahrt "+(m.exit||"?")+n;
+  if(!dir) return "Weiter"+n;
+  return dir.charAt(0).toUpperCase()+dir.slice(1)+n;
+}
+function navTick(){
+  if(!navState.active||!lastPos) return;
+  var t=navState.target;
+  if(!t) return;
+  var dTarget=havM(lastPos,[t.lat,t.lon]);
+  if(dTarget<40&&!navState.arrived){ navState.arrived=true; updateNavCard(); toast("Angekommen: "+t.title); }
+  else if(dTarget>=60&&navState.arrived){ navState.arrived=false; updateNavCard(); }
+  if(navState.route){
+    var best=1e12,bi=0,c=navState.route.coords;
+    for(var i=0;i<c.length;i++){ var d=havM(lastPos,c[i]); if(d<best){ best=d; bi=i; } }
+    var remaining=Math.max(navState.route.dist-navState.cum[bi],dTarget<80?dTarget:0);
+    if(best>60){
+      if(!navState.offSince) navState.offSince=Date.now();
+      else if(Date.now()-navState.offSince>8000&&!navState.fetching){ navState.offSince=0; fetchNavRoute(); }
+    } else navState.offSince=0;
+    var steps=navState.route.steps;
+    while(navState.stepIdx<steps.length-1){
+      var loc=steps[navState.stepIdx].maneuver.location;
+      if(havM(lastPos,[loc[1],loc[0]])<25) navState.stepIdx++;
+      else break;
+    }
+    updateNavBanner(remaining);
+  }else{
+    // Route nachholen, falls der GPS-Fix erst nach dem Start kam (gedrosselt)
+    if(!navState.fetching&&(!navState.lastTry||Date.now()-navState.lastTry>10000)){
+      navState.lastTry=Date.now(); fetchNavRoute();
+    }
+    updateNavBanner(null);
+  }
+  // Auto-Zentrierung/Rotation nur, wenn der Navigations-Tab wirklich sichtbar ist —
+  // sonst kapert die Navigation die freie Karten-Ansicht im Karte-Tab
+  if(navState.navFollow&&document.body.getAttribute("data-tab")==="nav"){
+    var hu=headingUp&&bearingSm!==null;
+    applyRotMode(hu);
+    if(hu){
+      rotateTo(-bearingSm);
+      // Blickpunkt leicht voraus, damit vor dir mehr Karte sichtbar ist
+      map.setView(destPoint(lastPos,bearingSm,70),Math.max(map.getZoom(),16));
+    }else{
+      map.setView(lastPos,Math.max(map.getZoom(),16));
+    }
+  }
+  updateNavCardMeta();
+}
+function updateNavBanner(remaining){
+  var b=$("navbanner");
+  if(!navState.active){ b.style.display="none"; return; }
+  b.style.display="flex";
+  if(!navState.route){
+    if(lastPos&&navState.target){ $("nb-dist").textContent=distTxt(havM(lastPos,[navState.target.lat,navState.target.lon])); $("nb-text").textContent="Luftlinie zum Ziel"; }
+    else { $("nb-dist").textContent="…"; $("nb-text").textContent="Warte auf GPS"; }
+    $("nb-icon").style.transform=""; return;
+  }
+  if(!lastPos) return;
+  var s=navState.route.steps[navState.stepIdx];
+  var loc=s.maneuver.location;
+  $("nb-dist").textContent=distTxt(havM(lastPos,[loc[1],loc[0]]));
+  $("nb-text").textContent=stepText(s);
+  var rot=s.maneuver.type==="arrive"?0:(STEPROT[s.maneuver.modifier]||0);
+  $("nb-icon").style.transform="rotate("+rot+"deg)";
+}
+function updateNavCardMeta(){
+  var t=navState.target;
+  if(!t||!lastPos) return;
+  var rem=havM(lastPos,[t.lat,t.lon]);
+  if(navState.route){
+    var best=1e12,bi=0,c=navState.route.coords;
+    for(var i=0;i<c.length;i++){ var x=havM(lastPos,c[i]); if(x<best){ best=x; bi=i; } }
+    rem=Math.max(navState.route.dist-navState.cum[bi],0);
+  }
+  var v=(navState.route&&navState.route.dur>0)?(navState.route.dist/navState.route.dur):4.2;
+  var mins=Math.max(1,Math.round(rem/v/60));
+  $("nc-meta").textContent=distTxt(rem)+" · ca. "+mins+" min · danach "+Math.max(0,openInSeq()-(collected[t.id]?0:1))+" in Tour";
+}
+function updateNavCard(){
+  var t=navState.target, card=$("navcard"), act=$("nc-actions");
+  if(!navState.active||!t){ card.style.display="none"; $("navbanner").style.display="none"; return; }
+  card.style.display="block";
+  $("nc-badge").textContent=t.num;
+  $("nc-badge").className="badge"+(t.core?" core":"");
+  $("nc-title").textContent=t.title;
+  $("nc-meta").textContent=t.place;
+  act.innerHTML="";
+  function btn(cls,txt,fn){ var b=document.createElement("button"); b.className="btn "+cls; b.textContent=txt; b.addEventListener("click",fn); act.appendChild(b); }
+  if(navState.arrived){
+    btn("filled","Einsammeln (QR)",function(){ openOfficial("https://sparmania-200.de/schatzkarte"); });
+    btn("tonal","✓ Abhaken & weiter",function(){ setCollected(t.id,true); });
+    btn("text","Überspringen",advanceTarget);
+  }else{
+    btn("tonal","Abhaken",function(){ setCollected(t.id,true); });
+    btn("text","Überspringen",advanceTarget);
+    btn("text","Beenden",endNav);
+  }
+  updateNavBanner(null);
+}
+function advanceTarget(){
+  var t=navState.target;
+  var nxt=t?nextOpenAfter(navSeq,t):firstOpen(navSeq,0);
+  if(nxt&&(!t||nxt.id!==t.id)){
+    navState.target=nxt; navState.route=null; navState.arrived=false;
+    try{ localStorage.setItem("sparmania-target",String(nxt.id)); }catch(e){}
+    refreshAllMarkers();
+    updateNavCard(); fetchNavRoute();
+  }else{
+    toast("Tour komplett – stark! 🎉"); endNav();
+  }
+}
+$("navgo").addEventListener("click",function(){
+  var saved=null;
+  try{ saved=Number(localStorage.getItem("sparmania-target")); }catch(e){}
+  var c=(saved&&byId[saved]&&!collected[saved])?byId[saved]:(nextCoin||DATA.route[0]);
+  startNavTo(c);
+});
+$("recenter").addEventListener("click",function(){ navState.navFollow=true; this.style.display="none"; if(lastPos) map.setView(lastPos,16); });
+$("compass").addEventListener("click",function(){
+  headingUp=!headingUp;
+  if(!headingUp) applyRotMode(false);
+  toast(headingUp?"Karte dreht in Fahrtrichtung":"Norden oben");
+});
+map.on("dragstart",function(){
+  if(navState.active){ navState.navFollow=false; applyRotMode(false); $("recenter").style.display="block"; }
+  else follow=false;
+});
+
+/* ===== Profil / Sync ===== */
+function openOfficial(url){
+  if(window.AndroidApp&&AndroidApp.openOfficial){ AndroidApp.openOfficial(url); }
+  else openExtern(url);
+}
+(function(){
+  var b=document.querySelectorAll("[data-official]");
+  for(var i=0;i<b.length;i++) b[i].addEventListener("click",function(){ openOfficial(this.getAttribute("data-official")); });
+})();
+function doSync(){
+  toast("Synchronisiere …");
+  if(window.AndroidApp&&AndroidApp.syncCollected){ AndroidApp.syncCollected(); return; }
+  fetch("https://sparmania-200.de/api/coins/map?includeCollected=1",{credentials:"include"})
+    .then(function(r){ return r.text(); }).then(function(b){ applySync(b); })
+    .catch(function(){ toast("Sync klappt nur in der Android-App (CORS)"); });
+}
+window.onSyncResult=function(body){ applySync(body); };
+function applySync(body){
+  try{
+    var arr=JSON.parse(body);
+    if(!Array.isArray(arr)) throw new Error("kein Array");
+    var tot=0,neu=0;
+    arr.forEach(function(c){
+      if(c.collectedAt){ tot++; if(!collected[c.id]){ collected[c.id]=true; neu++; } }
+    });
+    saveProgress(); calcNext();
+    DATA.route.forEach(refreshCoin);
+    updateHome();
+    try{ localStorage.setItem("sparmania-sync",String(new Date().getTime())); }catch(e){}
+    toast(tot?("Profil: "+tot+" eingesammelt · "+neu+" neu übernommen"):"Verbunden – Profil meldet noch 0 Münzen (eingeloggt?)");
+  }catch(e){ toast("Sync fehlgeschlagen – erst im Profil-Tab einloggen"); }
+}
+$("syncbtn").addEventListener("click",doSync);
+$("syncbtn2").addEventListener("click",doSync);
+$("syncbtn3").addEventListener("click",doSync);
+
+/* ===== Start ===== */
+rebuildTour();
+updateNavCard();
+</script>
+</body>
+</html>
