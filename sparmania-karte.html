@@ -1019,6 +1019,18 @@ input[type=checkbox]{width:20px;height:20px;accent-color:var(--primary);flex-shr
         <button class="btn text" id="syncbtn3">Fortschritt synchronisieren</button>
       </div>
     </div>
+    <div class="card" id="import-panel" style="display:none">
+      <div class="title-m">Sammelstand importieren</div>
+      <div class="body-m" style="margin:6px 0 10px">Im Browser lässt Sparmania keinen direkten Zugriff von fremden Seiten zu. So holst du deinen offiziellen Stand trotzdem rein:</div>
+      <ol class="body-m" style="margin:0 0 12px;padding-left:20px;line-height:1.7">
+        <li><b>„Daten öffnen"</b> tippen – ein Tab mit deinem Sammelstand öffnet sich (falls leer: erst im Profil einloggen).</li>
+        <li>Dort <b>alles markieren und kopieren</b>.</li>
+        <li>Zurück hierher, unten <b>einfügen</b> und <b>„Importieren"</b>.</li>
+      </ol>
+      <button class="btn tonal" id="import-open" style="width:100%;margin-bottom:8px">1 · Daten öffnen (Sparmania)</button>
+      <textarea id="import-text" placeholder="2 · Kopiertes hier einfügen …" style="width:100%;min-height:84px;box-sizing:border-box;font-family:inherit;font-size:13px;padding:10px;border:1px solid var(--outline-variant);border-radius:var(--r-el);background:var(--surface);color:var(--on-surface);resize:vertical"></textarea>
+      <button class="btn filled" id="import-go" style="width:100%;margin-top:8px">3 · Importieren</button>
+    </div>
     <div class="card">
       <div class="title-m">So sammelst du</div>
       <div class="body-m" style="margin-top:6px">1. Mit der Navigation zur Münze radeln.<br>2. Am Ziel „Einsammeln" antippen – die offizielle Seite öffnet sich in der App.<br>3. QR-Code vor Ort scannen, Münze gehört dir.<br>4. Zurück-Taste bringt dich zur Navigation.</div>
@@ -1233,7 +1245,7 @@ $("jumpnext").addEventListener("click",function(){
   r.scrollIntoView({behavior:"smooth",block:"center"});
   r.classList.remove("flash"); void r.offsetWidth; r.classList.add("flash");
 });
-$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.6";
+$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.7";
 $("h-navstart").addEventListener("click",function(){ unlockAudio(); startNavTo(nextCoin||activeTour.coins[0]); });
 
 /* ===== Touren-Engine (Auswahl nach Zeit / Größe / Nähe) ===== */
@@ -1771,12 +1783,20 @@ function openOfficial(url){
   for(var i=0;i<b.length;i++) b[i].addEventListener("click",function(){ openOfficial(this.getAttribute("data-official")); });
 })();
 function doSync(){
-  toast("Synchronisiere …");
-  if(window.AndroidApp&&AndroidApp.syncCollected){ AndroidApp.syncCollected(); return; }
-  fetch("https://sparmania-200.de/api/coins/map?includeCollected=1",{credentials:"include"})
-    .then(function(r){ return r.text(); }).then(function(b){ applySync(b); })
-    .catch(function(){ toast("Sync klappt nur in der Android-App (CORS)"); });
+  // Android: nativer Request mit Session-Cookie (ein Tap).
+  if(window.AndroidApp&&AndroidApp.syncCollected){ toast("Synchronisiere …"); AndroidApp.syncCollected(); return; }
+  // Web-App: direkter Zugriff ist durch CORS + SameSite=lax-Cookie blockiert -> geführter Import.
+  switchTab("profil");
+  var p=$("import-panel"); p.style.display="block";
+  setTimeout(function(){ p.scrollIntoView({behavior:"smooth",block:"center"}); },80);
 }
+var SPARMANIA_MAP="https://sparmania-200.de/api/coins/map?includeCollected=1";
+$("import-open").addEventListener("click",function(){ openExtern(SPARMANIA_MAP); });
+$("import-go").addEventListener("click",function(){
+  var t=$("import-text").value.trim();
+  if(!t){ toast("Bitte zuerst die kopierten Daten einfügen"); return; }
+  applySync(t);
+});
 window.onSyncResult=function(body){ applySync(body); };
 function applySync(body){
   try{
@@ -1790,8 +1810,9 @@ function applySync(body){
     DATA.route.forEach(refreshCoin);
     updateHome();
     try{ localStorage.setItem("sparmania-sync",String(new Date().getTime())); }catch(e){}
+    var it=$("import-text"); if(it) it.value="";
     toast(tot?("Profil: "+tot+" eingesammelt · "+neu+" neu übernommen"):"Verbunden – Profil meldet noch 0 Münzen (eingeloggt?)");
-  }catch(e){ toast("Sync fehlgeschlagen – erst im Profil-Tab einloggen"); }
+  }catch(e){ toast("Import fehlgeschlagen – bitte den vollständigen Text (JSON) einfügen bzw. eingeloggt sein"); }
 }
 $("syncbtn").addEventListener("click",doSync);
 $("syncbtn2").addEventListener("click",doSync);

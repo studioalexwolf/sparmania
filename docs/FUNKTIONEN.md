@@ -87,7 +87,13 @@ Folgt automatisch dem System-Dunkelmodus (in der App über den Android-Nachtmodu
 
 ## Fortschritt & Profil-Sync
 
-Eingesammelte Münzen werden lokal gespeichert (überlebt Neustarts). Die **Android-App** kann
-zusätzlich deinen **offiziellen Sammelstand** aus dem Sparmania-Profil übernehmen: einmal im
-Profil-Tab einloggen, dann „Fortschritt synchronisieren". In der reinen Web-App funktioniert
-das aus technischen Gründen (Cross-Origin) nicht – dort hakst du selbst ab.
+Eingesammelte Münzen werden lokal gespeichert (überlebt Neustarts). Zusätzlich lässt sich der
+**offizielle Sammelstand** aus dem Sparmania-Profil übernehmen:
+
+- **Android-App:** einmal im Profil-Tab einloggen, dann „Fortschritt synchronisieren" – ein Tap
+  (nativer Request mit Session-Cookie).
+- **Web-App (iPhone/Browser):** Sparmania erlaubt fremden Seiten keinen direkten Zugriff
+  (CORS + `SameSite=lax`-Cookie), daher geführt: „Fortschritt synchronisieren" öffnet den
+  Import. Dort **„Daten öffnen"** tippen (öffnet deinen Sammelstand als Seite – eingeloggt
+  siehst du deine Münzen), alles **kopieren**, zurück, **einfügen**, **„Importieren"**. Der
+  Stand wird übernommen.

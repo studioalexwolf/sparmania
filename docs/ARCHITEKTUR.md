@@ -87,8 +87,12 @@ brauchen einen Secure Context – Pages liefert HTTPS, daher funktioniert beides
 
 - **Kein `navigator.vibrate`** auf iOS → dort nur Ton, keine Vibration (sauber abgefangen).
 - **Wake Lock** hält den Bildschirm während der Navigation an (iOS 16.4+).
-- **Profil-Sync** geht in der Web-App nicht (Cross-Origin/CORS zur Sparmania-API) – Einsammeln
-  öffnet die offizielle Seite in einem neuen Tab, abgehakt wird manuell.
+- **Profil-Sync** geht in der Web-App nicht automatisch (die Sparmania-API sendet keine
+  CORS-Header, und das Session-Cookie ist `SameSite=lax` + `HttpOnly` – ein `fetch` von
+  fremder Herkunft wird doppelt blockiert). Lösung: geführter **Import** – der Sammelstand
+  wird per Top-Level-Navigation geöffnet (dabei sendet der Browser das Lax-Cookie), kopiert
+  und in die App eingefügt (`applySync`). Die Android-App braucht das nicht, sie holt die
+  Daten nativ.
 
 ## Android-App (`android/`)
 
