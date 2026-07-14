@@ -714,8 +714,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
   --error:#8A0000; --on-error:#fff; --error-container:#FFDAD3; --on-error-container:#410000;
   --inv-surface:#2C2A2A; --inv-on:#F3F0EF; --veil:rgba(255,255,255,.92); --bar-bg:rgba(0,0,0,.12); --state:rgba(238,0,0,.08);
   --nav-h:76px;
-  --elev1:0 1px 2px rgba(0,0,0,.3),0 1px 3px 1px rgba(0,0,0,.15);
-  --elev2:0 1px 2px rgba(0,0,0,.3),0 2px 6px 2px rgba(0,0,0,.15);
+  /* Astryx-Layer: mittlere Radien, dezelerierende Motion, State-Overlays, Fokus, weichere Elevation */
+  --r-el:10px; --r-cont:12px; --r-full:9999px;
+  --ease:cubic-bezier(.24,1,.4,1); --dur-fast:125ms; --dur-med:300ms;
+  --overlay-hover:rgba(0,0,0,.05); --overlay-pressed:rgba(0,0,0,.10);
+  --focus:var(--brand);
+  --elev1:0 2px 4px rgba(0,0,0,.05),0 4px 8px rgba(0,0,0,.10);
+  --elev2:0 2px 4px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.12);
   --font-head:"SparkasseWeb","Sparkasse","Arial","Helvetica",sans-serif;
   --font-body:"SparkasseWebLight","SparkasseWeb","Arial","Helvetica",sans-serif;
 }
@@ -727,6 +732,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
   --on-surface:#E6E1E0; --on-surface-variant:#CBC5C4; --outline:#948F8D; --outline-variant:#4A4645;
   --error:#FFB4AB; --on-error:#690005; --error-container:#93000A; --on-error-container:#FFDAD6;
   --inv-surface:#E6E1E0; --inv-on:#2C2A2A; --veil:rgba(20,20,20,.92); --bar-bg:rgba(255,255,255,.15); --state:rgba(255,137,124,.14);
+  --overlay-hover:rgba(255,255,255,.06); --overlay-pressed:rgba(255,255,255,.12);
+  --elev1:0 2px 4px rgba(0,0,0,.25),0 4px 8px rgba(0,0,0,.4),inset 0 0 0 1px rgba(255,255,255,.08);
+  --elev2:0 2px 4px rgba(0,0,0,.35),0 4px 12px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.1);
 }
 :root.dark .leaflet-tile{filter:brightness(.82) contrast(1.05) saturate(.9)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -757,7 +765,6 @@ body[data-tab="nav"] #view-nav, body[data-tab="profil"] #view-profil{display:fle
 .card.hero{background:var(--brand);color:var(--on-brand)}
 .btn{border:none;border-radius:20px;height:40px;padding:0 20px;font-size:14px;font-weight:500;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .btn.filled{background:var(--brand);color:var(--on-brand)}
-.btn.filled:active{box-shadow:var(--elev1)}
 .btn.tonal{background:var(--secondary-container);color:var(--on-secondary-container)}
 .btn.text{background:transparent;color:var(--primary)}
 .btn.error{background:var(--error-container);color:var(--on-error-container)}
@@ -883,6 +890,29 @@ input[type=checkbox]{width:20px;height:20px;accent-color:var(--primary);flex-shr
 .hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 .brandlogo{height:30px;width:auto;flex-shrink:0;margin-top:2px}
 .pin.core{box-shadow:0 0 0 2px #1A1110,0 1px 4px rgba(0,0,0,.4)}
+
+/* ===== Astryx-Interaktionslayer (Radien · State · Fokus · Motion) ===== */
+/* Mittlere Radien: Container 12px, Elemente 10px */
+.card,.stat,.listcard,#navbanner,#navcard,#proxbar,#toast,.fab{border-radius:var(--r-cont)}
+.btn,.chip,.gmleg{border-radius:var(--r-el)}
+/* Taktiles Feedback: Overlay-Tint (hover 5% / pressed 10%) + Press-Scale */
+.btn{transition:transform var(--dur-fast) var(--ease),box-shadow var(--dur-fast) var(--ease)}
+@media (hover:hover){.btn:hover{box-shadow:inset 0 0 0 999px var(--overlay-hover)}}
+.btn:active{box-shadow:inset 0 0 0 999px var(--overlay-pressed);transform:scale(.98)}
+.chip{transition:background-color var(--dur-fast) var(--ease),border-color var(--dur-fast) var(--ease)}
+.chip:active{transform:scale(.98)}
+.row{transition:background-color var(--dur-fast) var(--ease)}
+.gmleg:active,.row:active{box-shadow:inset 0 0 0 999px var(--overlay-pressed)}
+/* Tastatur-Fokusring in Markenfarbe, auf Touch unterdrückt (Astryx) */
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+@media (hover:none) and (pointer:coarse){:focus-visible{outline:none}}
+/* Motion vereinheitlicht auf Astryx-Easing/Dauern */
+#sheet{transition:transform var(--dur-med) var(--ease)}
+#scrim{transition:opacity var(--dur-med) var(--ease)}
+.progressbar>div{transition:width var(--dur-med) var(--ease)}
+.sw .track,.sw .knob{transition:all var(--dur-fast) var(--ease)}
+/* Reduced Motion respektieren */
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body data-tab="home">
@@ -1207,7 +1237,7 @@ $("jumpnext").addEventListener("click",function(){
   r.scrollIntoView({behavior:"smooth",block:"center"});
   r.classList.remove("flash"); void r.offsetWidth; r.classList.add("flash");
 });
-$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.4";
+$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.5";
 $("h-navstart").addEventListener("click",function(){ unlockAudio(); startNavTo(nextCoin||activeTour.coins[0]); });
 
 /* ===== Touren-Engine (Auswahl nach Zeit / Größe / Nähe) ===== */

@@ -56,6 +56,17 @@ Navigation (`navSeq`, `fetchNavRoute`, `navTick` mit Heading-up-Rotation), Proxi
 (`checkProximity`, `coinChime` via WebAudio), Google-Maps-Export (`gmapsLegs`/`gmapsUrl`) und
 GPS/Wake-Lock.
 
+### Design-Grundlage
+
+Die Optik ist Material-Design in Sparkassen-Rot, verfeinert mit dem Token- und
+Interaktionsmodell des Design-Systems [Astryx](https://github.com/facebook/astryx) – dessen
+Idee „ein Theme ist ein Satz CSS-Custom-Property-Overrides" passt direkt zu unseren CSS-Variablen.
+Übernommen (in reinem CSS, ohne die React-Library): mittlere Radien (Container 12 px / Element
+10 px), dezelerierendes Easing `cubic-bezier(.24,1,.4,1)` mit 125/300 ms, State-Overlays für
+Hover/Pressed plus Press-Scale, Tastatur-Fokusringe (auf Touch unterdrückt), `prefers-reduced-motion`
+und weichere, border-basierte Elevation. Astryx' Marken-Hook ist `--color-accent`; bei uns bleibt
+das konstant **Sparkassen-Rot `#EE0000`** (`--brand`), alle Zustände leiten sich daraus ab.
+
 ## Web-App / PWA
 
 `scripts/make_deliverables.py → build_webapp()` erzeugt `webapp/`:
