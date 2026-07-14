@@ -215,8 +215,12 @@ public class MainActivity extends Activity {
     }
 
     private void hideOfficial() {
+        boolean wasShown = officialView != null && officialView.getVisibility() == View.VISIBLE;
         if (officialView != null) officialView.setVisibility(View.GONE);
         if (officialBack != null) officialBack.setVisibility(View.GONE);
+        // Auto-Sync bei Rückkehr aus der offiziellen Sparmania-Ansicht: gerade eingesammelte
+        // Münzen werden ohne manuelles Antippen übernommen (Session-Cookie ist jetzt gesetzt).
+        if (wasShown) runNativeSync();
     }
 
     /** Von JS aufrufbar: window.AndroidApp.* */
@@ -250,38 +254,45 @@ public class MainActivity extends Activity {
 
         @JavascriptInterface
         public void syncCollected() {
-            new Thread(new Runnable() {
-                public void run() {
-                    String result;
-                    try {
-                        URL url = new URL("https://" + OFFICIAL + "/api/coins/map?includeCollected=1");
-                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                        con.setConnectTimeout(15000);
-                        con.setReadTimeout(15000);
-                        String cookies = CookieManager.getInstance().getCookie("https://" + OFFICIAL);
-                        if (cookies != null) con.setRequestProperty("Cookie", cookies);
-                        con.setRequestProperty("Accept", "application/json");
-                        InputStream is = con.getResponseCode() < 400
-                                ? con.getInputStream() : con.getErrorStream();
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        byte[] buf = new byte[8192];
-                        int n;
-                        while (is != null && (n = is.read(buf)) > 0) bos.write(buf, 0, n);
-                        con.disconnect();
-                        result = bos.toString("UTF-8");
-                    } catch (Exception e) {
-                        result = "{\"error\":\"" + e.getClass().getSimpleName() + "\"}";
-                    }
-                    final String body = result;
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            appView.evaluateJavascript(
-                                    "window.onSyncResult(" + JSONObject.quote(body) + ")", null);
-                        }
-                    });
-                }
-            }).start();
+            runNativeSync();
         }
+    }
+
+    /** Zieht den offiziellen Sammelstand nativ (mit Sitzungscookie aus dem WebView-CookieManager)
+     *  und übergibt ihn an die App-Oberfläche. Wird von JS (Bridge.syncCollected) und automatisch
+     *  beim Verlassen der Sparmania-Ansicht (hideOfficial) aufgerufen. */
+    private void runNativeSync() {
+        new Thread(new Runnable() {
+            public void run() {
+                String result;
+                try {
+                    URL url = new URL("https://" + OFFICIAL + "/api/coins/map?includeCollected=1");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setConnectTimeout(15000);
+                    con.setReadTimeout(15000);
+                    String cookies = CookieManager.getInstance().getCookie("https://" + OFFICIAL);
+                    if (cookies != null) con.setRequestProperty("Cookie", cookies);
+                    con.setRequestProperty("Accept", "application/json");
+                    InputStream is = con.getResponseCode() < 400
+                            ? con.getInputStream() : con.getErrorStream();
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    byte[] buf = new byte[8192];
+                    int n;
+                    while (is != null && (n = is.read(buf)) > 0) bos.write(buf, 0, n);
+                    con.disconnect();
+                    result = bos.toString("UTF-8");
+                } catch (Exception e) {
+                    result = "{\"error\":\"" + e.getClass().getSimpleName() + "\"}";
+                }
+                final String body = result;
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        appView.evaluateJavascript(
+                                "window.onSyncResult(" + JSONObject.quote(body) + ")", null);
+                    }
+                });
+            }
+        }).start();
     }
 
     private boolean hasLocationPermission() {

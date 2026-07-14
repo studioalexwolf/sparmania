@@ -1252,7 +1252,7 @@ $("jumpnext").addEventListener("click",function(){
   r.scrollIntoView({behavior:"smooth",block:"center"});
   r.classList.remove("flash"); void r.offsetWidth; r.classList.add("flash");
 });
-$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.8";
+$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.9";
 $("h-navstart").addEventListener("click",function(){ unlockAudio(); startNavTo(nextCoin||activeTour.coins[0]); });
 
 /* ===== Touren-Engine (Auswahl nach Zeit / Größe / Nähe) ===== */
