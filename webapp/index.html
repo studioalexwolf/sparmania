@@ -1261,7 +1261,7 @@ $("jumpnext").addEventListener("click",function(){
   r.scrollIntoView({behavior:"smooth",block:"center"});
   r.classList.remove("flash"); void r.offsetWidth; r.classList.add("flash");
 });
-$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.9";
+$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.10";
 $("h-navstart").addEventListener("click",function(){ unlockAudio(); startNavTo(nextCoin||activeTour.coins[0]); });
 
 /* ===== Touren-Engine (Auswahl nach Zeit / Größe / Nähe) ===== */
@@ -1835,16 +1835,25 @@ function applySync(body){
   try{
     var arr=JSON.parse(body);
     if(!Array.isArray(arr)) throw new Error("kein Array");
-    var tot=0,neu=0;
+    // Dedupe: die API liefert manche Münzen doppelt → sonst zählt der Sync zu hoch.
+    // onRoute = eingesammelte Münzen, die Teil der Route sind (= Dashboard-Zahl).
+    var uniq={}, onRoute=0, neuRoute=0;
     arr.forEach(function(c){
-      if(c.collectedAt){ tot++; if(!collected[c.id]){ collected[c.id]=true; neu++; } }
+      if(!c || !c.collectedAt || uniq[c.id]) return;
+      uniq[c.id]=true;
+      var was=!!collected[c.id];
+      collected[c.id]=true;
+      if(byId[c.id]){ onRoute++; if(!was) neuRoute++; }
     });
+    var total=Object.keys(uniq).length;
     saveProgress(); calcNext();
     DATA.route.forEach(refreshCoin);
     updateHome();
     try{ localStorage.setItem("sparmania-sync",String(new Date().getTime())); }catch(e){}
     var it=$("import-text"); if(it) it.value="";
-    toast(tot?("Profil: "+tot+" eingesammelt · "+neu+" neu übernommen"):"Verbunden – Profil meldet noch 0 Münzen (eingeloggt?)");
+    if(!total){ toast("Verbunden – Profil meldet noch 0 Münzen (eingeloggt?)"); }
+    else if(total===onRoute){ toast("Profil-Sync: "+total+" eingesammelt"+(neuRoute?(" · "+neuRoute+" neu"):"")); }
+    else { toast("Profil: "+total+" gesamt · "+onRoute+"/"+DATA.route.length+" auf deiner Route"+(neuRoute?(" · "+neuRoute+" neu"):"")); }
   }catch(e){ toast("Import fehlgeschlagen – bitte den vollständigen Text (JSON) einfügen bzw. eingeloggt sein"); }
 }
 /* Bookmarklet-Rückkehr: Collected-IDs kommen im URL-Hash (#sync=[...]) zurück */
