@@ -1029,16 +1029,23 @@ input[type=checkbox]{width:20px;height:20px;accent-color:var(--primary);flex-shr
       </div>
     </div>
     <div class="card" id="import-panel" style="display:none">
-      <div class="title-m">Sammelstand importieren</div>
-      <div class="body-m" style="margin:6px 0 10px">Im Browser lässt Sparmania keinen direkten Zugriff von fremden Seiten zu. So holst du deinen offiziellen Stand trotzdem rein:</div>
-      <ol class="body-m" style="margin:0 0 12px;padding-left:20px;line-height:1.7">
-        <li><b>„Daten öffnen"</b> tippen – ein Tab mit deinem Sammelstand öffnet sich (falls leer: erst im Profil einloggen).</li>
-        <li>Dort <b>alles markieren und kopieren</b>.</li>
-        <li>Zurück hierher, unten <b>einfügen</b> und <b>„Importieren"</b>.</li>
-      </ol>
-      <button class="btn tonal" id="import-open" style="width:100%;margin-bottom:8px">1 · Daten öffnen (Sparmania)</button>
-      <textarea id="import-text" placeholder="2 · Kopiertes hier einfügen …" style="width:100%;min-height:84px;box-sizing:border-box;font-family:inherit;font-size:13px;padding:10px;border:1px solid var(--outline-variant);border-radius:var(--r-el);background:var(--surface);color:var(--on-surface);resize:vertical"></textarea>
-      <button class="btn filled" id="import-go" style="width:100%;margin-top:8px">3 · Importieren</button>
+      <div class="title-m">Sammelstand synchronisieren</div>
+      <div class="body-m" style="margin:6px 0 12px">Im Browser erlaubt Sparmania keinen direkten Zugriff. Mit einem einmal eingerichteten Lesezeichen läuft der Sync danach <b>ohne Kopieren</b> – ein Tap, du landest automatisch wieder hier.</div>
+      <div class="body-m" style="font-weight:700;color:var(--on-surface);margin:2px 0 6px">Einmalig: Lesezeichen anlegen</div>
+      <div style="display:flex;gap:8px">
+        <input id="bm-code" readonly style="flex:1;min-width:0;font-family:monospace;font-size:11px;padding:9px;border:1px solid var(--outline-variant);border-radius:var(--r-el);background:var(--surface);color:var(--on-surface-variant)">
+        <button class="btn tonal" id="bm-copy" style="flex-shrink:0">Kopieren</button>
+      </div>
+      <div class="hint" style="margin:6px 0 14px">In Safari ein Lesezeichen (irgendeine Seite) anlegen → <b>bearbeiten</b> → als Adresse diesen Code einsetzen, Name z. B. „Sparmania-Sync".</div>
+      <div class="body-m" style="font-weight:700;color:var(--on-surface);margin:2px 0 6px">Dann synchronisieren</div>
+      <div class="body-m" style="margin-bottom:8px">Auf Sparmania einloggen und das Lesezeichen antippen – fertig.</div>
+      <button class="btn filled" id="import-open" style="width:100%">Sparmania-Profil öffnen</button>
+      <button class="btn text" id="paste-toggle" style="width:100%;margin-top:8px">Alternative: manuell einfügen</button>
+      <div id="paste-fallback" style="display:none;margin-top:8px">
+        <button class="btn tonal" id="import-open2" style="width:100%;margin-bottom:8px">Daten öffnen (JSON)</button>
+        <textarea id="import-text" placeholder="JSON hier einfügen …" style="width:100%;min-height:80px;box-sizing:border-box;font-family:inherit;font-size:13px;padding:10px;border:1px solid var(--outline-variant);border-radius:var(--r-el);background:var(--surface);color:var(--on-surface);resize:vertical"></textarea>
+        <button class="btn filled" id="import-go" style="width:100%;margin-top:8px">Importieren</button>
+      </div>
     </div>
     <div class="card">
       <div class="title-m">So sammelst du</div>
@@ -1254,7 +1261,7 @@ $("jumpnext").addEventListener("click",function(){
   r.scrollIntoView({behavior:"smooth",block:"center"});
   r.classList.remove("flash"); void r.offsetWidth; r.classList.add("flash");
 });
-$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.7";
+$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.8";
 $("h-navstart").addEventListener("click",function(){ unlockAudio(); startNavTo(nextCoin||activeTour.coins[0]); });
 
 /* ===== Touren-Engine (Auswahl nach Zeit / Größe / Nähe) ===== */
@@ -1800,7 +1807,24 @@ function doSync(){
   setTimeout(function(){ p.scrollIntoView({behavior:"smooth",block:"center"}); },80);
 }
 var SPARMANIA_MAP="https://sparmania-200.de/api/coins/map?includeCollected=1";
-$("import-open").addEventListener("click",function(){ openExtern(SPARMANIA_MAP); });
+/* Bookmarklet erzeugen: läuft auf sparmania-200.de (same-origin, Cookie geht),
+   holt die eingesammelten IDs und schickt sie im URL-Hash zurück an diese App. */
+(function(){
+  var appUrl=location.href.split("#")[0];
+  $("bm-code").value="javascript:(function(){fetch('/api/coins/map?includeCollected=1',{credentials:'include'})"+
+    ".then(function(r){return r.json()}).then(function(d){var i=d.filter(function(c){return c.collectedAt})"+
+    ".map(function(c){return c.id});location.href="+JSON.stringify(appUrl)+"+'#sync='+encodeURIComponent(JSON.stringify(i))})"+
+    ".catch(function(e){alert('Sparmania-Sync fehlgeschlagen: '+e)})})();";
+})();
+$("bm-copy").addEventListener("click",function(){
+  var el=$("bm-code"); el.focus(); el.select(); if(el.setSelectionRange) el.setSelectionRange(0,99999);
+  var ok=function(){ toast("Code kopiert – jetzt als Adresse ins Lesezeichen einsetzen"); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(el.value).then(ok,function(){ try{document.execCommand("copy");ok();}catch(e){toast("Bitte den Code manuell markieren & kopieren");} }); }
+  else { try{ document.execCommand("copy"); ok(); }catch(e){ toast("Bitte den Code manuell markieren & kopieren"); } }
+});
+$("import-open").addEventListener("click",function(){ openOfficial("https://sparmania-200.de/profil"); });
+$("paste-toggle").addEventListener("click",function(){ var f=$("paste-fallback"); f.style.display=(f.style.display==="none"?"block":"none"); });
+$("import-open2").addEventListener("click",function(){ openExtern(SPARMANIA_MAP); });
 $("import-go").addEventListener("click",function(){
   var t=$("import-text").value.trim();
   if(!t){ toast("Bitte zuerst die kopierten Daten einfügen"); return; }
@@ -1823,6 +1847,21 @@ function applySync(body){
     toast(tot?("Profil: "+tot+" eingesammelt · "+neu+" neu übernommen"):"Verbunden – Profil meldet noch 0 Münzen (eingeloggt?)");
   }catch(e){ toast("Import fehlgeschlagen – bitte den vollständigen Text (JSON) einfügen bzw. eingeloggt sein"); }
 }
+/* Bookmarklet-Rückkehr: Collected-IDs kommen im URL-Hash (#sync=[...]) zurück */
+function importCollectedIds(ids){
+  if(!Array.isArray(ids)) return;
+  var neu=0;
+  ids.forEach(function(id){ if(!collected[id]){ collected[id]=true; neu++; } });
+  saveProgress(); calcNext(); DATA.route.forEach(refreshCoin); updateHome();
+  try{ localStorage.setItem("sparmania-sync",String(new Date().getTime())); }catch(e){}
+  toast(ids.length?("Profil-Sync: "+ids.length+" eingesammelt · "+neu+" neu"):"Profil meldet 0 Münzen (eingeloggt?)");
+}
+function checkHashSync(){
+  var m=(location.hash||"").match(/[#&]sync=([^&]+)/);
+  if(!m) return;
+  try{ importCollectedIds(JSON.parse(decodeURIComponent(m[1]))); }catch(e){ toast("Sync-Daten unlesbar"); }
+  try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){ location.hash=""; }
+}
 $("syncbtn").addEventListener("click",doSync);
 $("syncbtn2").addEventListener("click",doSync);
 $("syncbtn3").addEventListener("click",doSync);
@@ -1831,6 +1870,7 @@ $("creditlink").addEventListener("click",function(){ openExtern("https://alexwol
 /* ===== Start ===== */
 rebuildTour();
 updateNavCard();
+checkHashSync();
 </script>
 </body>
 </html>

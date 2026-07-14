@@ -93,7 +93,9 @@ Eingesammelte Münzen werden lokal gespeichert (überlebt Neustarts). Zusätzlic
 - **Android-App:** einmal im Profil-Tab einloggen, dann „Fortschritt synchronisieren" – ein Tap
   (nativer Request mit Session-Cookie).
 - **Web-App (iPhone/Browser):** Sparmania erlaubt fremden Seiten keinen direkten Zugriff
-  (CORS + `SameSite=lax`-Cookie), daher geführt: „Fortschritt synchronisieren" öffnet den
-  Import. Dort **„Daten öffnen"** tippen (öffnet deinen Sammelstand als Seite – eingeloggt
-  siehst du deine Münzen), alles **kopieren**, zurück, **einfügen**, **„Importieren"**. Der
-  Stand wird übernommen.
+  (CORS + `SameSite=lax`-Cookie), daher per **Lesezeichen (Bookmarklet)** – einmal einrichten,
+  danach ohne Kopieren: „Fortschritt synchronisieren" zeigt einen kleinen Code, den du als
+  Lesezeichen speicherst. Auf sparmania-200.de eingeloggt tippst du das Lesezeichen an; es liest
+  deinen Stand (dort same-origin, Cookie geht) und schickt dich per URL automatisch zurück in
+  die App, wo der Stand übernommen wird. Als Rückfall gibt es weiterhin den manuellen
+  Kopieren-Einfügen-Import.

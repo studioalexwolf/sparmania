@@ -89,10 +89,11 @@ brauchen einen Secure Context – Pages liefert HTTPS, daher funktioniert beides
 - **Wake Lock** hält den Bildschirm während der Navigation an (iOS 16.4+).
 - **Profil-Sync** geht in der Web-App nicht automatisch (die Sparmania-API sendet keine
   CORS-Header, und das Session-Cookie ist `SameSite=lax` + `HttpOnly` – ein `fetch` von
-  fremder Herkunft wird doppelt blockiert). Lösung: geführter **Import** – der Sammelstand
-  wird per Top-Level-Navigation geöffnet (dabei sendet der Browser das Lax-Cookie), kopiert
-  und in die App eingefügt (`applySync`). Die Android-App braucht das nicht, sie holt die
-  Daten nativ.
+  fremder Herkunft wird doppelt blockiert). Lösung: ein **Bookmarklet**, das auf
+  sparmania-200.de läuft (dort same-origin, Cookie wird gesendet), die eingesammelten IDs holt
+  und per `location.href = <app-url>#sync=[…]` an die App zurückgibt; die App liest den Hash
+  beim Laden (`checkHashSync` → `importCollectedIds`). Rückfall bleibt der manuelle
+  Paste-Import (`applySync`). Die Android-App braucht beides nicht, sie holt die Daten nativ.
 
 ## Android-App (`android/`)
 
