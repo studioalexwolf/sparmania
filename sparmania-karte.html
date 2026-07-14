@@ -1023,6 +1023,11 @@ input[type=checkbox]{width:20px;height:20px;accent-color:var(--primary);flex-shr
       <div class="title-m">So sammelst du</div>
       <div class="body-m" style="margin-top:6px">1. Mit der Navigation zur Münze radeln.<br>2. Am Ziel „Einsammeln" antippen – die offizielle Seite öffnet sich in der App.<br>3. QR-Code vor Ort scannen, Münze gehört dir.<br>4. Zurück-Taste bringt dich zur Navigation.</div>
     </div>
+    <div class="card">
+      <div class="title-m">Gebaut von Alex Wolf</div>
+      <div class="body-m" style="margin:6px 0 12px">Strategic Product Design &amp; Vibecoding – digitale Produkte von der Idee bis zum Code. Diese App ist ein Solo-Build.</div>
+      <button class="btn filled" id="creditlink">alexwolf.studio besuchen</button>
+    </div>
     <div class="card" style="background:transparent;padding:12px 4px">
       <div class="hint" style="text-align:center">Inoffizielles, privates Projekt – <b>nicht</b> von der Sparkasse Leipzig, keine offizielle Verbindung oder Unterstützung. Münzen werden ausschließlich über die offizielle Seite eingesammelt.</div>
     </div>
@@ -1228,7 +1233,7 @@ $("jumpnext").addEventListener("click",function(){
   r.scrollIntoView({behavior:"smooth",block:"center"});
   r.classList.remove("flash"); void r.offsetWidth; r.classList.add("flash");
 });
-$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.5";
+$("version").textContent="Route Stand "+new Date(DATA.generatedAt).toLocaleDateString("de-DE")+" · Fahrrad-Routing (OSRM) · Sparkassen-Design · v3.6";
 $("h-navstart").addEventListener("click",function(){ unlockAudio(); startNavTo(nextCoin||activeTour.coins[0]); });
 
 /* ===== Touren-Engine (Auswahl nach Zeit / Größe / Nähe) ===== */
@@ -1791,6 +1796,7 @@ function applySync(body){
 $("syncbtn").addEventListener("click",doSync);
 $("syncbtn2").addEventListener("click",doSync);
 $("syncbtn3").addEventListener("click",doSync);
+$("creditlink").addEventListener("click",function(){ openExtern("https://alexwolf.studio"); });
 
 /* ===== Start ===== */
 rebuildTour();

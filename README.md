@@ -3,6 +3,8 @@
 **Fahrrad-Routenplaner & Navigations-App für die Münzjagd der [Sparmania-Schatzsuche](https://sparmania-200.de/schatzkarte).**
 Sammle möglichst viele Münzen mit dem Rad – optimierte Route, Turn-by-Turn-Navigation, Touren nach Zeit, Münz-Signal bei Reichweite und Google-Maps-Export.
 
+Ein Projekt von **[Alex Wolf](https://alexwolf.studio)** — Strategic Product Design &amp; Vibecoding · [alexwolf.studio](https://alexwolf.studio)
+
 > [!IMPORTANT]
 > **Inoffizielles, privates Projekt.** Nicht von der Sparkasse Leipzig, keine offizielle
 > Verbindung oder Unterstützung. Die Farbwelt orientiert sich an der Marke; das offizielle
@@ -70,6 +72,15 @@ python3 scripts/make_deliverables.py # baut sparmania-karte.html, webapp/ und di
 export SPARMANIA_KEYSTORE_PASS=…      # Keystore-Passwort (nicht im Repo)
 bash android/build_apk.sh            # signierte APK
 ```
+
+## 👋 Autor
+
+Entworfen und gebaut von **Alex Wolf** — Strategic Product Design &amp; Vibecoding.
+Von der ersten Idee über Kundenverständnis und Produktdesign bis zum lauffähigen Code.
+Diese App ist so ein Solo-Build: Datenanalyse, Routen-Optimierung, native App, PWA und Design
+aus einer Hand.
+
+**Du hast ein Produkt im Kopf? → [alexwolf.studio](https://alexwolf.studio)**
 
 ## ⚖️ Rechtliches
 
